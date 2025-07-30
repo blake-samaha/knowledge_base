@@ -1,0 +1,420 @@
+erDiagram
+  ASSET ||--o{ TIMESERIES : asset_id
+  ASSET ||--o{ EVENT : asset_ids
+  ASSET ||--o{ FILE : asset_ids
+  ASSET ||--o{ SEQUENCE : asset_id
+  ASSET ||--o{ ASSET : parent_id
+  ASSET ||--o{ EQUIPMENT : asset
+  ASSET ||--|| OBJECT3D : object_3d
+  ASSET ||--|| ASSETCLASS : asset_class
+  ASSET ||--|| ASSETTYPE : asset_type
+  ASSET ||--o{ THREEDASSETMAPPING : asset_id
+  ASSET ||--o{ ACTIVITY : assets
+  ASSET ||--o{ DOCUMENT : asset_ids
+  ASSET ||--o{ ANNOTATION : asset_ref
+  ASSET ||--o{ COGNITEFILE : assets
+  ASSET ||--o{ COGNITEEQUIPMENT : asset
+  ASSET ||--o{ COGNITETIMESERIES : assets
+  ASSET ||--o{ COGNITEASSET : parent
+  ASSET ||--o{ COGNITEACTIVITY : assets
+  ASSET ||--o{ COGNITECADNODE : asset
+  ASSET ||--o{ COGNITEEXTRACTORFILE : assets
+  ASSET ||--o{ GEOSPATIAL : asset_ids
+  ASSET ||--o{ ASSETLINK : asset_ref
+  ASSET ||--o{ ASSETTAGDETECTIONPARAMETERS : asset_subtree_ids
+  DATASET ||--o{ ASSET : data_set_id
+  DATASET ||--o{ TIMESERIES : data_set_id
+  DATASET ||--o{ EVENT : data_set_id
+  DATASET ||--o{ FILE : data_set_id
+  DATASET ||--o{ SEQUENCE : data_set_id
+  DATASET ||--o{ EQUIPMENT : data_set_id
+  DATASET ||--o{ THREEDMODEL : data_set_id
+  DATASET ||--o{ EXTRACTIONPIPELINE : data_set_id
+  DATASET ||--o{ RELATIONSHIP : data_set_id
+  DATASET ||--o{ SOURCEFILE : dataset_id
+  DATASET ||--o{ GEOSPATIAL : data_set_id
+  DATASET ||--o{ WORKFLOW : data_set_id
+  DATASET ||--o{ DESTINATION : target_data_set_id
+  DATASET ||--o{ VIEW : data_set_id
+  LABEL ||--o{ ASSET : labels
+  LABEL ||--o{ EVENT : labels
+  LABEL ||--o{ FILE : labels
+  LABEL ||--o{ TIMESERIES : labels
+  LABEL ||--o{ EQUIPMENT : labels
+  RELATIONSHIP ||--|| CDFResource : source
+  RELATIONSHIP ||--|| CDFResource : target
+  TIMESERIES ||--o{ DATAPOINT : datapoints
+  SEQUENCE ||--o{ SEQUENCEROW : rows
+  EQUIPMENT ||--|| EQUIPMENTTYPE : equipment_type
+  EQUIPMENT ||--o{ FILE : files
+  THREEDMODEL ||--o{ THREEDNODE : nodes
+  THREEDNODE ||--o{ THREEDASSETMAPPING : node_id
+  THREEDNODE ||--o{ THREEDNODE : parent_id
+  OBJECT3D ||--o{ THREEDNODE : object_3d
+  TRANSFORMATION ||--o{ TRANSFORMATIONJOB : jobs
+  TRANSFORMATION ||--o| TRANSFORMATIONSCHEDULE : schedule
+  TRANSFORMATION }o--|| DATASET : data_set_id
+  TRANSFORMATION ||--o{ TRANSFORMATIONBLOCKEDINFO : blocked
+  TRANSFORMATION ||--|| OIDCCREDENTIALS : source_oidc_credentials
+  TRANSFORMATION ||--|| OIDCCREDENTIALS : destination_oidc_credentials
+  TRANSFORMATION ||--|| NONCECREDENTIALS : source_nonce
+  TRANSFORMATION ||--|| NONCECREDENTIALS : destination_nonce
+  TRANSFORMATION ||--|| SESSIONDETAILS : source_session
+  TRANSFORMATION ||--|| SESSIONDETAILS : destination_session
+  TRANSFORMATION ||--o{ TRANSFORMATIONNOTIFICATION : notifications
+  FUNCTION ||--o{ FUNCTIONCALL : calls
+  WORKFLOW ||--o{ WORKFLOWVERSION : versions
+  DATAMODEL ||--o{ VIEW : views
+  SPACE ||--o{ DATAMODEL : space
+  SPACE ||--o{ VIEW : space
+  SPACE ||--o{ INSTANCE : space
+  GROUP ||--o{ CAPABILITY : capabilities
+  ANNOTATION ||--|| FILE : annotated_resource
+  ANNOTATION ||--|| THREEDMODEL : annotated_resource
+  COGNITEFILE ||--|| COGNITEFILECATEGORY : category
+  COGNITEFILE ||--|| SOURCE : source
+  COGNITEEQUIPMENT ||--|| EQUIPMENTTYPE : equipment_type
+  COGNITEASSET ||--|| COGNITEASSETCLASS : asset_class
+  COGNITEASSET ||--|| COGNITEASSETTYPE : asset_type
+  COGNITEASSET ||--|| OBJECT3D : object_3d
+  COGNITEASSET ||--o{ COGNITEASSET : parent
+  COGNITECADNODE ||--|| COGNITE3DMODEL : model_3d
+  COGNITECADNODE ||--|| OBJECT3D : object_3d
+  COGNITE3DMODEL ||--o{ COGNITECADNODE : nodes
+  TIMESERIES }o--|| COGNITEUNIT : unit_external_id
+
+  CDFResource {
+    string id
+    string external_id
+  }
+
+  note "The CDFResource entity is a placeholder for any resource that can be part of a relationship, such as Asset, TimeSeries, File, Event, or Sequence."
+
+  ASSET {
+    string name
+    string description
+    map metadata
+  }
+  EVENT {
+    timestamp start_time
+    timestamp end_time
+    string type
+  }
+  FILE {
+    string name
+    string mime_type
+  }
+  TIMESERIES {
+    bool is_string
+    string unit
+    string unit_external_id
+  }
+  DATAPOINT {
+    timestamp timestamp
+    float value
+  }
+  DATASET {
+    string name
+    string description
+  }
+  LABEL {
+    string external_id
+    string name
+  }
+  RELATIONSHIP {
+    string external_id
+    string source_type
+    string target_type
+    int data_set_id
+    float confidence
+  }
+  EQUIPMENT {
+    string name
+    string description
+    string serial_number
+    string manufacturer
+  }
+  EQUIPMENTTYPE {
+    string name
+    string code
+    string equipment_class
+    string standard
+  }
+  OBJECT3D {
+    string name
+    string description
+    float x_min
+    float x_max
+    float y_min
+    float y_max
+    float z_min
+    float z_max
+  }
+  THREEDMODEL {
+    string name
+    string description
+    string model_type
+  }
+  THREEDNODE {
+    string name
+    int tree_index
+    int depth
+    int subtree_size
+  }
+  THREEDASSETMAPPING {
+    int node_id
+    int asset_id
+    int tree_index
+    int subtree_size
+  }
+  ASSETCLASS {
+    string name
+    string description
+    string code
+  }
+  ASSETTYPE {
+    string name
+    string description
+    string code
+    string standard
+  }
+  ACTIVITY {
+    string name
+    string description
+    timestamp start_time
+    timestamp end_time
+    timestamp scheduled_start_time
+    timestamp scheduled_end_time
+  }
+  DOCUMENT {
+    int id
+    string title
+    string author
+    string producer
+    string mime_type
+    int page_count
+    string language
+  }
+  TRANSFORMATION {
+    string external_id
+    string name
+    string query
+    string conflict_mode
+    bool is_public
+    int data_set_id
+    list tags
+  }
+  TRANSFORMATIONJOB {
+    int id
+    string status
+    timestamp created_time
+    string error
+  }
+  TRANSFORMATIONSCHEDULE {
+    int id
+    string interval
+    bool is_paused
+  }
+  TRANSFORMATIONBLOCKEDINFO {
+    string reason
+    timestamp blocked_time
+  }
+  OIDCCREDENTIALS {
+    string client_id
+    string client_secret
+    string cdf_project_name
+    string token_uri
+  }
+  NONCECREDENTIALS {
+    int session_id
+    string nonce
+  }
+  SESSIONDETAILS {
+    int session_id
+    string client_id
+    string project_name
+  }
+  FUNCTION {
+    string code
+    string schedule
+  }
+  WORKFLOW {
+    string id
+    string description
+  }
+  DATAMODEL {
+    string space
+    string external_id
+  }
+  VIEW {
+    string space
+    string external_id
+  }
+  INSTANCE {
+    string space
+    string instance_id
+  }
+  GROUP {
+    string name
+    string id
+  }
+  CAPABILITY {
+    string resource
+    string action
+  } 
+  COGNITEUNIT {
+    string external_id
+    string name
+    string long_name
+    string symbol
+    string quantity
+  }
+  TRANSFORMATIONNOTIFICATION {
+    int id
+    int transformation_id
+    string transformation_external_id
+    string destination
+    timestamp created_time
+  } 
+  ANNOTATION {
+    int id
+    string annotation_type
+    CdfResourceRef asset_ref
+    string text
+    float confidence
+  } 
+  COGNITEFILE {
+    string name
+    string mime_type
+    string directory
+    list[DirectRelationReference] assets
+  }
+  COGNITEFILECATEGORY {
+    string code
+    string name
+    string description
+    string standard
+    string standard_reference
+  }
+  SOURCE {
+    string space
+    string external_id
+    string name
+    string description
+  }
+  COGNITEEQUIPMENT {
+    string name
+    string description
+    string serial_number
+    string manufacturer
+    DirectRelationReference asset
+    DirectRelationReference equipment_type
+  }
+  COGNITETIMESERIES {
+    string name
+    string description
+    bool is_step
+    string time_series_type
+    list[DirectRelationReference] assets
+  }
+  COGNITEASSET {
+    string name
+    string description
+    DirectRelationReference parent
+    DirectRelationReference asset_class
+    DirectRelationReference asset_type
+    DirectRelationReference object_3d
+  }
+  COGNITEASSETCLASS {
+    string name
+    string description
+    string code
+    string standard
+  }
+  COGNITEASSETTYPE {
+    string name
+    string description
+    string code
+    string standard
+    DirectRelationReference asset_class
+  }
+  COGNITEACTIVITY {
+    string name
+    string description
+    datetime start_time
+    datetime end_time
+    datetime scheduled_start_time
+    datetime scheduled_end_time
+    list[DirectRelationReference] assets
+  }
+  COGNITECADNODE {
+    string name
+    string description
+    string cad_node_reference
+    DirectRelationReference asset
+    DirectRelationReference model_3d
+    DirectRelationReference object_3d
+  }
+  COGNITE3DMODEL {
+    string name
+    string description
+    string model_type
+    DirectRelationReference thumbnail
+  }
+  COGNITEEXTRACTORFILE {
+    string name
+    string description
+    string mime_type
+    string directory
+    list[DirectRelationReference] assets
+  }
+  GEOSPATIAL {
+    string external_id
+    int data_set_id
+    Geometry geometry
+    dict properties
+    list[int] asset_ids
+  }
+  EXTRACTIONPIPELINE {
+    string external_id
+    string name
+    string description
+    int data_set_id
+    string schedule
+  }
+  SOURCEFILE {
+    string name
+    string hash
+    string directory
+    string source
+    string mime_type
+    int size
+    int dataset_id
+    list[int] asset_ids
+  } 
+  ASSETLINK {
+    string text
+    BoundingBox text_region
+    CdfResourceRef asset_ref
+    float confidence
+  } 
+  ASSETTAGDETECTIONPARAMETERS {
+    float threshold
+    bool partial_match
+    list[int] asset_subtree_ids
+  } 
+  WORKFLOW {
+    string external_id
+    string description
+    int data_set_id
+  } 
+  DESTINATION {
+    string external_id
+    int target_data_set_id
+    int session_id
+  } 
+  VIEW {
+    string external_id
+    Source source
+    int data_set_id
+  } 
