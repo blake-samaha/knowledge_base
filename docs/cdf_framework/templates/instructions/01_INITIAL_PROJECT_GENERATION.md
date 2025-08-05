@@ -425,3 +425,46 @@ spec:
 ```
 
 - **AI Output:** The complete, deployable set of YAML configuration files for the Cognite Toolkit.
+
+---
+
+## ⚠️ Common Errors & Troubleshooting
+
+| Step | Possible Error | Diagnostic Command | Resolution |
+|------|----------------|--------------------|------------|
+| 1 | `MissingPlaceholderError` when converting Markdown | `spec_validator.py --verbose` | Fill remaining `<REPLACE_ME>` tags or update glossary. |
+| 2 | `RelationshipMismatchError` in `relationship_validator.py` | `--strict` flag prints offending objects | Ensure source & target names match **exactly** between overview & object specs. |
+| 3 | `TypeValidationError` while generating object JSON | Check `data_type` field in spec: only allowed types | Correct the data type or add mapping rule. |
+| 5 | `SchemaViolation` during `yaml_validator.py` | `--debug` outputs file & line | Regenerate YAML with updated spec or patch file manually. |
+
+> **Tip**: Most CLI tools accept `--fix` to auto-correct minor issues (e.g., adding missing `description` fields).
+
+## 🔧 Customization Options
+
+1. **Minimal vs. Full Output**  
+   - Pass `--mode minimal` to `yaml_from_spec.py` to generate only datasets, groups, and config files for a PoC.  
+   - Use `--mode full` *(default)* for complete containers, views, transformations.
+2. **Environment Filtering**  
+   Generate YAML for a single environment:  
+   `python yaml_from_spec.py --env dev ...`
+3. **Module Prefix Override**  
+   Add `--module-prefix my_prefix_` to prepend strings to all resource external IDs—useful for multi-module deployments.
+4. **ID Mapping File**  
+   Provide `--id-map id_map.csv` so the generator re-uses existing asset/time-series IDs from legacy systems.
+
+## ✅ Validation Outputs Interpretation
+
+After running `final_validator.py`, you will get a summary in `ASSUMPTIONS_AND_GAPS.md` similar to:
+
+```md
+### Validation Results (2024-05-15)
+- ✅ 42 YAML files validated against schema
+- ⚠️ 3 Warnings (missing optional `description`)
+- ❌ 0 Critical errors
+```
+
+*Proceed to deployment only when critical errors = 0.*
+
+---
+
+> **Next Step**: Commit generated YAML, push to your repo, and run **`cognite toolkit apply --dry-run`** to preview changes in CDF before the first live deployment.

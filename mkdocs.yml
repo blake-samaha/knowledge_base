@@ -66,7 +66,6 @@ theme:
 nav:
   - Home: index.md
   - Quick Start:
-      - Overview: site-index.md
       - For Project Managers: ai_knowledge/quickstart_context_engineering.md
       - For Developers: ai_knowledge/advanced_prompting.md
       - For CDF Teams: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
@@ -157,14 +156,7 @@ extra_javascript:
 # Copyright
 copyright: Copyright &copy; 2024 Your Organization
 
-# Social links
-social:
-  - icon: fontawesome/brands/github
-    link: https://github.com/your-org/knowledge_base
-  - icon: fontawesome/brands/discord
-    link: https://discord.gg/your-org
-  - icon: fontawesome/brands/twitter
-    link: https://twitter.com/your-org
+
 
 # Validation
 validation:

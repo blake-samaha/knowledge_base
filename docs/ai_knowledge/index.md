@@ -29,8 +29,8 @@ This section provides comprehensive learning resources and best practices for le
 - **[AI Workflows](ai_workflows/index.md)** - Practical implementation guides
 
 ### 3. **Advanced** - Master the Craft
-- **[Comprehensive AI Knowledge](../AI_KNOWLEDGE.md)** - Deep technical content (41KB)
-- **[Production Templates](../cdf_framework/templates/instructions/)** - Real-world applications
+- **[Advanced AI Techniques](advanced_prompting.md)** - Deep technical content and advanced methods
+- **[Production Templates](../cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)** - Real-world applications
 
 ## 🚀 Quick Wins
 
@@ -72,7 +72,7 @@ AI-assisted development is rapidly evolving. Stay current with emerging techniqu
 
 ## 📖 Deep Dive
 
-For comprehensive coverage of all AI-assisted development topics, see the **[Comprehensive AI Knowledge](../AI_KNOWLEDGE.md)** document (41KB of advanced content).
+For comprehensive coverage of all AI-assisted development topics, see the **[Advanced Prompting Techniques](advanced_prompting.md)** document for deep technical content.
 
 ---
 

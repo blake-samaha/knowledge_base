@@ -37,7 +37,7 @@ Deploy production-ready CDF solutions with infrastructure-as-code:
 ### For Contributors
 - **[Contributing Guidelines](contributing.md)** - How to contribute to the knowledge base
 - **[Governance Framework](GOVERNANCE.md)** - Quality assurance and management
-- **[Complete Index](site-index.md)** - Searchable catalog of all documentation
+- **[Complete Index](index.md)** - Searchable catalog of all documentation
 
 ## 📚 Repository Structure
 
@@ -56,7 +56,7 @@ knowledge_base/
 │   │   └── templates/instructions/    # CDF deployment templates
 │   ├── GOVERNANCE.md                  # Quality assurance framework
 │   ├── contributing.md                # Contribution guidelines
-│   ├── site-index.md                  # Documentation index
+│   ├── index.md                  # Documentation index
 │   └── index.md                       # This page
 ├── tools/                             # Supporting tools and utilities
 └── mkdocs.yml                         # Documentation configuration
@@ -105,7 +105,7 @@ We welcome contributions to both learning content and production templates! See 
 
 ## 📖 Complete Documentation
 
-For a comprehensive, searchable catalog of all documentation, see the [Complete Index](site-index.md).
+For a comprehensive, searchable catalog of all documentation, see the [Complete Index](index.md).
 
 ---
 

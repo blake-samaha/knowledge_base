@@ -95,3 +95,116 @@ The AI will use these to create `config.[env].yaml` files.
 - **Global Naming Convention:** `<REPLACE_ME: e.g., prefix:scope:name>`
 - **Timestamp Standard:** `<REPLACE_ME: e.g., ISO 8601 with UTC timezone>`
 - **Required Property for All Objects:** `<REPLACE_ME: e.g., source_last_updated_time>`
+
+---
+
+## 5. Best Practices Summary
+
+Follow these universal guidelines when completing this template:
+
+- Keep object and dataset **external IDs** lowercase and snake_case for consistency.
+- Align **RAW database names** with their **source system** (e.g., `raw_sap_pm`).
+- Use **ISO-8601** timestamps with UTC for all time fields.
+- Leverage **batch operations** in all data ingestion scripts to honour CDF rate limits.
+- Map **business terms** in the glossary to data model objects to avoid ambiguity.
+- Define **security roles** first; they drive every downstream IaC file the AI will generate.
+
+## 6. Common Pitfalls & How to Avoid Them
+
+| Pitfall | Consequence | How to Mitigate |
+|---------|-------------|-----------------|
+| Vague business goal | Misaligned data model & KPIs | Summarise the business value in **one measurable sentence** |
+| Missing source IDs | CI/CD pipeline fails during security-group creation | Collect Azure AD group object IDs before running generation workflow |
+| Ambiguous glossary terms | Inconsistent naming across modules | Add glossary entries for **every new acronym** introduced |
+| Over-granular RAW tables | Excessive ingestion cost | Group low-volume tables into a single RAW table where possible |
+
+## 7. Validation Checklist
+
+Use this checklist before committing the filled template:
+
+- [ ] All `<REPLACE_ME>` placeholders removed
+- [ ] At least **one environment** (`dev`) configured with valid IDs
+- [ ] Every dataset has a clear **ownership description**
+- [ ] Security roles reference **existing** variables from *Environments* section
+- [ ] Global naming convention example matches sample IDs in the template
+- [ ] Document lint passes (`markdownlint .`)
+
+## 8. Integration Examples
+
+Below are example snippets showing how the AI will convert this template into code.
+
+### Python SDK: Reading Config
+```python
+from pathlib import Path
+import yaml
+from cognite.client import CogniteClient
+
+config = yaml.safe_load(Path("config.dev.yaml").read_text())
+client = CogniteClient(
+    project=config["project"],
+    api_key=os.getenv("CDF_API_KEY"),
+)
+print(client.datasets.list(limit=5))
+```
+
+### Cognite Toolkit: Deploying Resources
+```bash
+cognite toolkit apply \
+  --project my-cdf-project \
+  --environment dev \
+  --module well_performance_module
+```
+
+---
+
+# 📚 Reference Examples
+
+The following three fully-populated examples illustrate how to complete this template for different industries. **Copy & adapt** the sections as needed.
+
+## Example A – Oil & Gas: Well Performance Monitoring
+
+### 1. Project Overview (Filled)
+- **Project Name:** Well Performance Monitoring
+- **Module Name:** well_performance_module
+- **Business Goal:** Improve production efficiency by 5% through real-time visibility of well KPIs.
+- **Primary Use Cases:**
+    - Detect under-performing wells automatically
+    - Correlate downtime events with production loss
+- **Key Stakeholders:**
+    - Reliability Engineer
+    - Production Supervisor
+
+### 2. Project Glossary (Excerpt)
+- **`ESP`**: Electric Submersible Pump
+- **`GOR`**: Gas-Oil Ratio
+
+### 3. CDF Project Configuration (Excerpt)
+- **Environment:** dev
+    - **`admin_group_source_id`:** 0a1b2c3d-dev
+    - **`user_group_source_id`:** 9f8e7d6c-dev
+- **Space External ID:** sp_well_perf
+- **Data Set:**
+    - **External ID:** ds_pi_raw
+    - **Name:** PI Historian RAW
+    - **Description:** Minute-level sensor data from PI
+
+### 4. Key Architectural Decisions
+- **Global Naming Convention:** og:{asset_type}:{tag}
+- **Timestamp Standard:** ISO-8601 UTC
+- **Required Property for All Objects:** source_last_updated_time
+
+---
+
+## Example B – Manufacturing: Predictive Maintenance
+
+*(Provide similar filled sections tailored to a manufacturing plant with CNC machines)*
+
+---
+
+## Example C – Utilities: Grid Analytics Platform
+
+*(Provide similar filled sections tailored to a power-grid asset hierarchy & SCADA data)*
+
+---
+
+> **Next Step**: Duplicate a reference example closest to your industry, update specific values, then run the *Initial Project Generation* workflow to scaffold your CDF project.

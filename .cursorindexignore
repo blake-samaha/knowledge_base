@@ -1,0 +1,59 @@
+# Cursor Index Ignore File
+# Files and directories to exclude from AI context indexing
+
+# Documentation build artifacts
+site/
+
+
+# Documentation configuration and dependencies
+requirements-docs.txt
+mkdocs.yml
+
+# Contributing and governance files (not core content)
+contributing.md
+GOVERNANCE.md
+
+# GitHub Actions workflows
+.github/
+
+# Development tools and scripts
+tools/
+scripts/
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Git files
+.git/
+.gitignore
+
+# Node modules (if any)
+node_modules/
+
+# Build outputs
+dist/
+build/ 

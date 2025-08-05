@@ -286,3 +286,99 @@ spec:
 ```
 
 - **Output:** Overwrite only the specific YAML files that were affected by the change.
+
+---
+
+## **Step 3: Impact Analysis & Rollback Plan**
+
+Once YAML artefacts are regenerated, assess downstream impact *before* deployment.
+
+1. **Generate Diff Report**  
+   ```bash
+   cognite toolkit diff --project my-cdf-project --module well_performance_module \
+       --env dev --new-config config/ --output diff_report.md
+   ```
+2. **Classify Changes**  
+   Parse `diff_report.md` and tag each change: `BREAKING`, `NON_BREAKING`, `PERFORMANCE`, `SECURITY`.
+3. **Estimate Downtime**  
+   Use `tools/impact_estimator.py` to predict ingestion lag or API downtime.
+4. **Stakeholder Sign-Off**  
+   Update `CHANGE_REQUEST.md` with summary and obtain approvals (Ops, Data Governance).
+5. **Rollback Scripts**  
+   Auto-generate rollback YAML:  
+   ```bash
+   python tools/generate_rollback.py diff_report.md --output rollback/ --mode safety
+   ```
+
+> **Rollback Policy:** Always keep previous YAML bundle (`before_changes/`) for instant re-apply using `cognite toolkit apply --dir before_changes/`.
+
+### Before / After Example
+
+| Metric | Before Update | After Update |
+|--------|---------------|--------------|
+| Container properties | 6 | 8 |
+| Transformation runtime | 2m 15s | 2m 18s |
+| View query latency (p95) | 750 ms | 780 ms |
+
+If p95 latency ↑ >10 %, mark as `PERFORMANCE` and re-evaluate query.
+
+---
+
+## **Step 4: Deploy & Monitor**
+
+1. **Dry-Run Deployment**  
+   ```bash
+   cognite toolkit apply --dry-run --project my-cdf-project --env dev --dir config/
+   ```
+2. **Live Deployment** (if dry-run clean)  
+   ```bash
+   cognite toolkit apply --project my-cdf-project --env dev --dir config/ --yes
+   ```
+3. **Post-Deploy Smoke Tests**  
+   Run `pytest tests/smoke/` which includes:
+   - Container existence check
+   - Transformation run status == `Completed`
+   - Sample view query returns >0 rows
+4. **Performance Monitoring**  
+   Execute `python tools/perf_monitor.py --object well_master_data --duration 60` to track latency and ingest rate.
+5. **Alerting**  
+   If error rate >1 % or latency ↑ 20 % => auto-trigger rollback script.
+
+---
+
+## **Real-World Scenario: Add New Property to Well**
+
+**Change Request:** Add `completionDate` (timestamp) to **Well** object.
+
+### 1. Update Spec (Markdown)
+```md
+- **Property:**
+    - **Name:** completionDate
+    - **Data Type:** timestamp
+    - **Nullable:** true
+    - **Source Field:** COMPLETION_DATE
+    - **Description:** Date well was completed and ready for production
+```
+
+### 2. Run Steps 1-4 Above
+Expected artefact changes: container, view, transformation SQL.
+
+### 3. Validation
+- Transformation SQL recompiles ✅
+- View returns `completionDate` column ✅
+- No existing queries fail (nullable) ✅
+
+---
+
+## **Common Pitfalls & Solutions**
+
+| Pitfall | Symptom | Fix |
+|---------|---------|-----|
+| Forgetting to update `datamodel.yaml` | Toolkit error "view not found" | Re-run `update_datamodel.py` step. |
+| Adding non-nullable property without default | Transformation fails on NULL | Provide `COALESCE()` or set `nullable: true` initially. |
+| Breaking relationship targets | View creation fails | Validate target external IDs exist; regenerate dependent views first. |
+| Overwriting unrelated YAML | Git diff shows large changes | Use `--object` flag to limit generator to specific component. |
+
+---
+
+> **Next Step**: After stable deployment in *dev*, promote YAML to *prod* via standard Git flow (PR & review) and rerun Steps 3-4 with `--env prod`.

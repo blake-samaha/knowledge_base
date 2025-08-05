@@ -269,3 +269,77 @@ The project specification has **15 total issues** that must be resolved before p
 ```
 
 - **AI Output:** A detailed `docs/PROJECT_VALIDATION_REPORT.md` that serves as an actionable quality review for the Solution Architect.
+
+---
+
+## **Step 4: Continuous Integration Hook**
+
+Embed the validation steps in CI so every PR triggers a realignment check.
+
+```yaml
+name: Project Realignment Validation
+
+on:
+  pull_request:
+    paths:
+      - "docs/**.md"
+      - "docs/specifications/**.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Install validation tools
+        run: pip install -r requirements-docs.txt
+      - name: Run realignment check
+        run: |
+          python tools/ci_realignment.py \
+            --principles docs/00_Solution_Design_Principles.md \
+            --conceptual docs/01_Conceptual_Data_Model_Overview.md \
+            --spec-dir docs/specifications/ \
+            --report docs/PROJECT_VALIDATION_REPORT.md
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: realignment_report
+          path: docs/PROJECT_VALIDATION_REPORT.md
+      - name: Annotate PR if issues
+        if: failure()
+        run: echo "Realignment check failed – see report for details." >> $GITHUB_STEP_SUMMARY
+```
+
+## 📊 Quality Metrics & Thresholds
+
+| Metric | Threshold | CI Fail Condition |
+|--------|-----------|-------------------|
+| Critical Issues | 0 | `critical > 0` |
+| Total Placeholders | 0 | `placeholders > 0` |
+| Invalid Relationships | 0 | any |
+| Undefined Datasets | 0 | any |
+| Naming Convention Violations | <5 | `violations >= 5` |
+
+> The `ci_realignment.py` script exits with non-zero code if any threshold is exceeded.
+
+## 🚀 Automated Remediation Script
+
+The quick-fix generator can propose SQL, YAML, or Markdown patches.
+
+```bash
+bash fix_validation_issues.sh --apply-patches --commit-msg "Auto-fix placeholders & naming"
+```
+
+The script:
+1. Fills obvious placeholders using heuristics (e.g., copy name into summary).  
+2. Renames external IDs to snake_case.  
+3. Inserts missing dataset stubs in design principles.
+
+Manual review still required before merging.
+
+---
+
+> **Next Step**: Integrate the CI workflow into your repository and resolve any failing checks before deployment.
