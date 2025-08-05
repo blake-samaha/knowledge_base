@@ -1,10 +1,13 @@
 # Quick-start: Context Engineering with Cursor
 
-Get up and running with context engineering in Cursor IDE in under 10 minutes. This guide provides immediate, practical steps to improve your AI-assisted development workflow.
+Get up and running with context engineering in Cursor IDE in under 10 minutes.
+This guide provides immediate, practical steps to improve your AI-assisted
+development workflow.
 
 ## 🎯 Before You Begin
 
 ### Prerequisites Checklist
+
 - [ ] Cursor IDE installed (version 0.20+ recommended)
 - [ ] Project repository initialized
 - [ ] Basic understanding of your project structure
@@ -14,6 +17,7 @@ Get up and running with context engineering in Cursor IDE in under 10 minutes. T
 ## 🚀 5-Minute Setup
 
 ### Step 1: Create Your First Context File
+
 Create a `.cursor/rules.md` file in your project root:
 
 ```bash
@@ -26,7 +30,7 @@ touch .cursor/rules.md
 <details>
 <summary><b>🏭 Option A: CDF Data Pipeline Project</b></summary>
 
-```markdown
+````markdown
 # CDF Data Pipeline Project Rules
 
 ## Technology Stack
@@ -70,12 +74,12 @@ async def create_assets_batch(
     data_set_id: int
 ) -> List[Asset]:
     """Create assets in CDF with proper error handling.
-    
+
     Args:
         client: Authenticated CogniteClient
         assets: List of asset dictionaries
         data_set_id: Target dataset ID
-        
+
     Returns:
         List of created Asset objects
     """
@@ -92,14 +96,15 @@ async def create_assets_batch(
             )
             for asset in assets
         ]
-        
+
         return client.assets.create(asset_objects)
-        
+
     except CogniteAPIError as e:
         logger.error(f"Failed to create assets: {e}")
         raise
-```
-```
+````
+
+````
 
 </details>
 
@@ -141,17 +146,17 @@ def analyze_equipment_performance(
     days_back: int = 30
 ) -> pd.DataFrame:
     """Analyze equipment performance metrics."""
-    
+
     # Fetch time series data
     end_time = datetime.now()
     start_time = end_time - timedelta(days=days_back)
-    
+
     # Get relevant time series
     timeseries = client.time_series.list(
         asset_ids=asset_ids,
         limit=None
     )
-    
+
     # Aggregate data
     aggregates = client.time_series.data.retrieve(
         external_id=[ts.external_id for ts in timeseries],
@@ -160,17 +165,18 @@ def analyze_equipment_performance(
         aggregates=['average', 'min', 'max'],
         granularity='1h'
     )
-    
+
     # Convert to DataFrame for analysis
     df = aggregates.to_pandas()
-    
+
     # Calculate KPIs
     df['efficiency'] = (df['actual'] / df['target']) * 100
     df['availability'] = df['runtime'] / (24 * days_back)
-    
+
     return df
-```
-```
+````
+
+````
 
 </details>
 
@@ -205,12 +211,12 @@ const storage = new MMKV();
 export class OfflineCDFClient {
   private client: CogniteClient;
   private syncQueue: any[] = [];
-  
+
   constructor(config: ClientConfig) {
     this.client = new CogniteClient(config);
     this.setupOfflineHandling();
   }
-  
+
   private setupOfflineHandling() {
     NetInfo.addEventListener(state => {
       if (state.isConnected && this.syncQueue.length > 0) {
@@ -218,21 +224,22 @@ export class OfflineCDFClient {
       }
     });
   }
-  
+
   async createAsset(asset: AssetInput): Promise<Asset> {
     const isOnline = await NetInfo.fetch().then(s => s.isConnected);
-    
+
     if (!isOnline) {
       // Queue for later
       this.syncQueue.push({ type: 'CREATE_ASSET', data: asset });
       storage.set('syncQueue', JSON.stringify(this.syncQueue));
       return asset as Asset; // Optimistic response
     }
-    
+
     return this.client.assets.create([asset])[0];
   }
 }
-```
+````
+
 ```
 
 </details>
@@ -242,17 +249,23 @@ Open Cursor IDE and try a prompt specific to your project type:
 
 **For CDF Data Pipeline:**
 ```
+
 Create a function to fetch all pumps from CDF and enrich with maintenance data
+
 ```
 
 **For CDF Analytics:**
 ```
+
 Create an analysis function to calculate MTBF for equipment
+
 ```
 
 **For CDF InField App:**
 ```
+
 Create a component to display asset details with offline support
+
 ```
 
 The AI should now generate code that follows your CDF-specific patterns.
@@ -262,16 +275,22 @@ The AI should now generate code that follows your CDF-specific patterns.
 ### Better Prompts with Context
 **Before** (without context):
 ```
+
 Write a function to handle user authentication
+
 ```
 
 **After** (with context):
 ```
-Write a function to handle user authentication that follows our project's patterns:
+
+Write a function to handle user authentication that follows our project's
+patterns:
+
 - Use TypeScript with proper types
 - Include error handling
 - Follow our API structure
 - Add JSDoc documentation
+
 ```
 
 ### Feature-Level Context
@@ -285,14 +304,16 @@ When working on a specific feature, open relevant files in your editor:
 Be specific about your immediate goal:
 
 ```
-I need to add a new field to the user profile form. 
-The field should:
+
+I need to add a new field to the user profile form. The field should:
+
 - Be called "phoneNumber"
 - Accept international phone numbers
 - Include validation
 - Update the existing User interface
 - Follow our form component patterns
-```
+
+````
 
 ## 📈 Quick Wins & Success Metrics
 
@@ -311,22 +332,25 @@ The field should:
    ```bash
    # Before context engineering
    Feature A: 2h (30m coding, 90m refactoring)
-   
-   # After context engineering  
+
+   # After context engineering
    Feature B: 45m (35m coding, 10m refactoring)
-   ```
+````
 
 2. **Iteration Counter**
+
    - Track how many prompts needed per feature
    - Target: 1-2 iterations vs 4-5 without context
 
-3. **Code Review Metrics**
+1. **Code Review Metrics**
+
    - Count style-related comments
    - Should drop by 70%+ with good context
 
 ## 🛠️ Advanced Setup
 
 ### Environment-Specific Context
+
 Create different context files for different environments:
 
 ```bash
@@ -338,6 +362,7 @@ Create different context files for different environments:
 ```
 
 ### Team-Shared Context
+
 Store context files in version control so the entire team benefits:
 
 ```bash
@@ -346,6 +371,7 @@ git commit -m "Add AI context rules for project standards"
 ```
 
 ### Context Validation
+
 Regularly review and update your context:
 
 - **Monthly**: Review and update technology stack
@@ -357,6 +383,7 @@ Regularly review and update your context:
 ### New Developer Setup (30 minutes)
 
 #### Day 1: Context Basics
+
 - [ ] Clone repository with `.cursor/rules.md`
 - [ ] Read through project context file
 - [ ] Install Cursor IDE and open project
@@ -364,6 +391,7 @@ Regularly review and update your context:
 - [ ] Compare outputs with existing code
 
 #### Day 2: Feature Development
+
 - [ ] Pick a simple feature to implement
 - [ ] Use context-aware prompts
 - [ ] Measure time to completion
@@ -371,6 +399,7 @@ Regularly review and update your context:
 - [ ] Update context based on learnings
 
 #### Day 3: Advanced Usage
+
 - [ ] Create feature-specific context
 - [ ] Use multiple context files
 - [ ] Share successful prompts with team
@@ -379,13 +408,15 @@ Regularly review and update your context:
 ### Team Lead Checklist
 
 #### Initial Setup
+
 - [ ] Create comprehensive `.cursor/rules.md`
 - [ ] Add project-specific examples
 - [ ] Document unique patterns
 - [ ] Set up version control
 - [ ] Schedule context review meetings
 
-#### Ongoing Maintenance  
+#### Ongoing Maintenance
+
 - [ ] Weekly: Review AI outputs for drift
 - [ ] Bi-weekly: Update examples
 - [ ] Monthly: Team retrospective
@@ -394,10 +425,12 @@ Regularly review and update your context:
 ## 🎯 Common Issues & Solutions
 
 ### Issue 1: AI Generates Generic Code
+
 **Symptom**: Code doesn't follow project patterns
 
 **Solution**:
-```markdown
+
+````markdown
 # Add to .cursor/rules.md
 
 ## IMPORTANT: Always follow these patterns
@@ -406,9 +439,10 @@ Regularly review and update your context:
 ```python
 def get_data():
     return requests.get(url).json()
-```
+````
 
-### ✅ Good Example (ALWAYS USE):
+### ✅ Good Example (ALWAYS USE)
+
 ```python
 from cognite.client import CogniteClient
 from typing import Optional
@@ -429,9 +463,11 @@ def get_asset_data(
 ```
 
 ### Issue 2: Inconsistent Outputs
+
 **Symptom**: Same prompt gives different styles
 
 **Solution**: Add explicit constraints
+
 ```markdown
 ## MANDATORY Rules
 - ALWAYS use type hints
@@ -441,17 +477,24 @@ def get_asset_data(
 ```
 
 ### Issue 3: Context Not Loading
+
 **Symptom**: AI ignores your rules
 
 **Diagnostic Steps**:
+
 1. Check file location:
+
    ```bash
    ls -la .cursor/rules.md
    ```
-2. Verify in Cursor:
+
+1. Verify in Cursor:
+
    - Open Command Palette (Cmd/Ctrl + Shift + P)
    - Search "Reload Window"
-3. Test with explicit reference:
+
+1. Test with explicit reference:
+
    ```
    Following the rules in .cursor/rules.md, create...
    ```
@@ -465,7 +508,7 @@ def get_asset_data(
 
 ## Critical Rules (Always Active) - Keep under 500 lines
 - Core patterns
-- Essential standards  
+- Essential standards
 - Must-follow rules
 
 ## Extended Context (Reference as needed) - Can be larger
@@ -477,11 +520,10 @@ def get_asset_data(
 ### Loading Performance
 
 | Context Size | Load Time | AI Response Time | Recommendation |
-|-------------|-----------|------------------|----------------|
-| < 1KB | Instant | Fast | Minimum viable context |
-| 1-5KB | < 0.1s | Fast | Optimal for most projects |
-| 5-10KB | < 0.5s | Slightly slower | Good for complex projects |
-| > 10KB | > 1s | Noticeably slower | Split into multiple files |
+|-------------|-----------|------------------|----------------| | < 1KB |
+Instant | Fast | Minimum viable context | | 1-5KB | < 0.1s | Fast | Optimal for
+most projects | | 5-10KB | < 0.5s | Slightly slower | Good for complex projects
+| | > 10KB | > 1s | Noticeably slower | Split into multiple files |
 
 ### Multi-File Strategy
 
@@ -500,31 +542,38 @@ def get_asset_data(
 ## 🎯 Next Steps by Experience Level
 
 ### Beginner (Weeks 1-2)
+
 1. **Master Basic Context**
+
    - Complete 5-minute setup
    - Use context for 10 tasks
    - Track time savings
    - Share learnings with team
 
-2. **Expand Context**
+1. **Expand Context**
+
    - Add 5 real examples
    - Document 3 anti-patterns
    - Create domain-specific rules
 
 ### Intermediate (Weeks 3-4)
+
 3. **Optimize Workflow**
+
    - Create feature templates
    - Build prompt library
    - Implement team standards
    - Measure quality metrics
 
-4. **Advanced Patterns**
+1. **Advanced Patterns**
+
    - Multi-file contexts
    - Dynamic context loading
    - Custom workflows
    - Performance optimization
 
 ### Advanced (Month 2+)
+
 5. **Scale Across Organization**
    - Standardize context patterns
    - Create governance process
@@ -534,16 +583,19 @@ def get_asset_data(
 ## 🏆 Success Stories
 
 ### Team A: 75% Faster Feature Development
+
 - **Context**: Comprehensive CDF patterns
 - **Result**: 2-day features now take 4 hours
 - **Key**: Detailed examples in context
 
 ### Team B: 90% Reduction in Bugs
+
 - **Context**: Error handling patterns
 - **Result**: Critical bugs nearly eliminated
 - **Key**: Explicit anti-patterns
 
 ### Team C: 10x Faster Onboarding
+
 - **Context**: Complete project rules
 - **Result**: New devs productive in 2 days
 - **Key**: Progressive context introduction
@@ -551,10 +603,15 @@ def get_asset_data(
 ## 📖 Resources & Next Steps
 
 ### Essential Reading
-- **[Context Engineering Deep Dive](context_engineering.md)** - Master the theory and advanced patterns
-- **[Advanced Prompting](advanced_prompting.md)** - Combine context with sophisticated techniques
-- **[AI Workflows](ai_workflows/index.md)** - Real-world CDF implementation examples
-- **[ROI Taxonomy](includes/roi_taxonomy.md)** - Measure and justify your investment
+
+- **[Context Engineering Deep Dive](context_engineering.md)** - Master the
+  theory and advanced patterns
+- **[Advanced Prompting](advanced_prompting.md)** - Combine context with
+  sophisticated techniques
+- **[AI Workflows](ai_workflows/index.md)** - Real-world CDF implementation
+  examples
+- **[ROI Taxonomy](includes/roi_taxonomy.md)** - Measure and justify your
+  investment
 
 ### Quick Reference Cards
 
@@ -570,7 +627,7 @@ def get_asset_data(
 - Error handling approach
 - 2-3 concrete examples
 
-## Should Have  
+## Should Have
 - Architecture decisions
 - Performance requirements
 - Security patterns
@@ -600,11 +657,13 @@ def get_asset_data(
 </details>
 
 ### Community Resources
+
 - [Cursor Documentation](https://cursor.sh/docs)
 - [CDF Best Practices](https://docs.cognite.com/best-practices/)
 - [Team Context Templates](./templates/)
 - [Success Stories](./case-studies/)
 
----
+______________________________________________________________________
 
-**Ready to transform your development workflow?** Start with the 5-minute setup, measure your improvements, and share your success story!
+**Ready to transform your development workflow?** Start with the 5-minute setup,
+measure your improvements, and share your success story!

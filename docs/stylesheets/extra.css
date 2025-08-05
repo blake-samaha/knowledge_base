@@ -113,11 +113,11 @@
   .quick-start-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .hero {
     padding: 1.5rem 0;
   }
-  
+
   .hero h1 {
     font-size: 1.8rem;
   }
@@ -141,4 +141,4 @@
   .feature-badge {
     display: none;
   }
-} 
+}

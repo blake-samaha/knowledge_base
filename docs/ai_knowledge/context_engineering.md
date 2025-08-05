@@ -1,21 +1,30 @@
 # Context Engineering
 
-Context engineering is the strategic discipline of designing and building dynamic systems that provide AI assistants with the right information, in the right format, at the right time. It's the foundation of effective AI-assisted development.
+Context engineering is the strategic discipline of designing and building
+dynamic systems that provide AI assistants with the right information, in the
+right format, at the right time. It's the foundation of effective AI-assisted
+development.
 
 ## 🎯 What is Context Engineering?
 
-While **prompt engineering** focuses on crafting the perfect instructions for a single request-response cycle, **context engineering** governs the selection, compression, memory, and tool schemas for an entire workflow.
+While **prompt engineering** focuses on crafting the perfect instructions for a
+single request-response cycle, **context engineering** governs the selection,
+compression, memory, and tool schemas for an entire workflow.
 
 ### Key Distinction
+
 - **Prompt Engineering**: "How do I ask the question?"
-- **Context Engineering**: "What does the AI need to know before I even ask the question?"
+- **Context Engineering**: "What does the AI need to know before I even ask the
+  question?"
 
 ## 🏗️ The Three Tiers of Context
 
 ### Tier 1: Project-Level Context (Global Blueprint)
+
 **Purpose**: Define the overall project environment and standards
 
 **Contents**:
+
 - Technology stack and specific versions
 - Overarching architectural patterns
 - Core design principles and coding standards
@@ -25,9 +34,11 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 **Implementation**: Store in `.cursor/rules.md` file in project root
 
 ### Tier 2: Feature-Level Context (Local Schematic)
+
 **Purpose**: Provide information relevant to a specific feature or module
 
 **Contents**:
+
 - Related component interfaces
 - API schemas and data models
 - State management patterns
@@ -36,9 +47,11 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 **Implementation**: Have relevant files open in editor or use `@file` references
 
 ### Tier 3: Task-Level Context (Immediate Instruction)
+
 **Purpose**: Provide specific details for a single, immediate action
 
 **Contents**:
+
 - Specific implementation goal
 - Acceptance criteria
 - Performance requirements
@@ -51,6 +64,7 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 ### 1. Project-Level Context (`.cursor/rules.md`)
 
 #### Real Example: CDF Asset Monitoring Solution
+
 ```markdown
 # Project Rules for AI Assistant - CDF Asset Monitoring
 
@@ -74,47 +88,46 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 ## Data Modeling Patterns
 - Always extend from Cognite Core Data Model (CDM)
 - Container structure:
-  ```
-  containers/
-    Pump.container.yaml          # Custom properties for pumps
-    Compressor.container.yaml    # Custom properties for compressors
-    MaintenanceOrder.container.yaml
-  views/
-    Pump.view.yaml              # Implements CogniteAsset
-    Compressor.view.yaml        # Implements CogniteAsset
-    MaintenanceOrder.view.yaml  # Implements CogniteActivity
-  ```
+```
+
+containers/ Pump.container.yaml # Custom properties for pumps
+Compressor.container.yaml # Custom properties for compressors
+MaintenanceOrder.container.yaml views/ Pump.view.yaml # Implements CogniteAsset
+Compressor.view.yaml # Implements CogniteAsset MaintenanceOrder.view.yaml #
+Implements CogniteActivity
+
+```
 - Use `requires` constraints to ensure data integrity
 - Link time series using consistent patterns: `{asset_type}:{asset_id}:{measurement}`
 
 ## Transformation Standards
 - Use Cognite Transformations for all data ingestion
 - SQL transformations must include:
-  - Proper error handling with COALESCE
-  - Data quality checks (NOT NULL constraints)
-  - Consistent timestamp handling
-  - node_reference() for relationships
+- Proper error handling with COALESCE
+- Data quality checks (NOT NULL constraints)
+- Consistent timestamp handling
+- node_reference() for relationships
 - Schedule patterns:
-  - Real-time data: Every 5 minutes
-  - Master data: Daily at 02:00 UTC
-  - Historical loads: One-time with backfill
+- Real-time data: Every 5 minutes
+- Master data: Daily at 02:00 UTC
+- Historical loads: One-time with backfill
 
 ## Time Series Patterns
 - External ID format: `{source}:{asset}:{measurement}:{unit}`
-  - Example: `pi:pump:P-101:flow:m3h`
+- Example: `pi:pump:P-101:flow:m3h`
 - Metadata requirements:
-  - unit: Required for all measurements
-  - description: Human-readable description
-  - assetId: Link to parent asset
-  - source: Origin system identifier
+- unit: Required for all measurements
+- description: Human-readable description
+- assetId: Link to parent asset
+- source: Origin system identifier
 
 ## Security & Access Control
 - Groups follow pattern: `{environment}_{role}`
-  - Example: `prod_admins`, `dev_users`
+- Example: `prod_admins`, `dev_users`
 - Capabilities assignment:
-  - Admins: Full access to space and transformations
-  - Users: Read-only access to views and time series
-  - Service accounts: Specific write permissions
+- Admins: Full access to space and transformations
+- Users: Read-only access to views and time series
+- Service accounts: Specific write permissions
 
 ## Query Optimization
 - Use GraphQL for complex queries with relationships
@@ -131,7 +144,8 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 ```
 
 #### Real Example: CDF Data Pipeline Solution
-```markdown
+
+````markdown
 # Project Rules for AI Assistant - CDF Data Pipeline
 
 ## Technology Stack
@@ -163,17 +177,19 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
       relationships.sql
     03_data_quality/
       validation_checks.sql
-  ```
+````
+
 - Use MERGE for upsert operations
 - Window functions for time-based calculations
 - CTEs for complex transformations
 - Parameterized queries with Jinja2 templates
 
 ## Data Quality Standards
+
 - Implement quality gates at each stage:
   1. Schema validation on RAW ingestion
-  2. Business rule validation in staging
-  3. Referential integrity in core
+  1. Business rule validation in staging
+  1. Referential integrity in core
 - Quality metrics to track:
   - Completeness: % of non-null required fields
   - Uniqueness: Duplicate detection
@@ -181,9 +197,13 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
   - Accuracy: Range and format validation
 
 ## CDF Functions Patterns
+
 - Function naming: `{purpose}_{source}_{target}`
+
   - Example: `ingest_sap_assets`, `calculate_oee_metrics`
+
 - Standard function structure:
+
   ```python
   def handle(client: CogniteClient, data: dict) -> dict:
       # Input validation
@@ -191,11 +211,15 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
       # Error handling
       # Return status
   ```
+
 - Environment variables for configuration
+
 - Structured logging with correlation IDs
+
 - Timeout handling for long-running operations
 
 ## Time Series Ingestion
+
 - Batch size: 100,000 data points per request
 - Use async operations for parallel ingestion
 - Implement backpressure handling
@@ -206,6 +230,7 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 - Aggregation patterns for downsampling
 
 ## Monitoring & Alerting
+
 - Log all transformation runs to CDF Events
 - Track metrics:
   - Records processed
@@ -218,12 +243,14 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
   - Processing time > 2x average
 
 ## Error Recovery
+
 - Implement circuit breaker pattern
 - Dead letter queues for failed records
 - Automatic retry with exponential backoff
 - Manual intervention workflows
 - Rollback procedures for critical failures
-```
+
+````
 
 #### Real Example: CDF InField Inspector App
 ```markdown
@@ -252,14 +279,19 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
       options: { /* OIDC config */ }
     }
   });
-  ```
+````
+
 - Offline-first architecture with sync queue
 - Cache CDF resources locally for offline access
 
 ## Asset Inspection Workflow
+
 - Load asset hierarchy from CDF
+
 - Display asset 360 images and documents
+
 - Create inspection events:
+
   ```typescript
   interface InspectionEvent {
     externalId: string;
@@ -277,20 +309,26 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
   ```
 
 ## Offline Capabilities
+
 - Download asset data for offline routes
 - Queue all CDF operations when offline
 - Sync strategy:
   1. Store operations in MMKV queue
-  2. Retry with exponential backoff
-  3. Handle conflicts with server data
-  4. Notify user of sync status
+  1. Retry with exponential backoff
+  1. Handle conflicts with server data
+  1. Notify user of sync status
 - Maximum offline storage: 500MB
 
 ## 3D Model Integration
+
 - Use Cognite 3D Web Viewer
+
 - Support for CAD and point cloud models
+
 - Highlight equipment in 3D view
+
 - Link 3D positions to assets:
+
   ```typescript
   const assetMapping3D = {
     nodeId: model.nodeId,
@@ -300,11 +338,17 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
   ```
 
 ## Time Series Display
+
 - Show last 24 hours by default
+
 - Support for multiple series overlay
+
 - Gesture-based zoom and pan
+
 - Offline caching of recent data
+
 - Aggregation for performance:
+
   ```typescript
   const datapoints = await client.timeseries.data.retrieve({
     items: [{ id: timeseriesId }],
@@ -315,6 +359,7 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
   ```
 
 ## Work Order Integration
+
 - Create work orders from findings
 - Link to maintenance system
 - Required fields:
@@ -325,6 +370,7 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 - Status tracking and updates
 
 ## Performance Requirements
+
 - Asset list loading < 2 seconds
 - 3D model initial load < 10 seconds
 - Support 10,000+ assets in hierarchy
@@ -333,13 +379,15 @@ While **prompt engineering** focuses on crafting the perfect instructions for a 
 - Background sync without UI blocking
 
 ## Security Standards
+
 - Biometric authentication for app access
 - Encrypted local storage for sensitive data
 - Certificate pinning for CDF endpoints
 - Session timeout after 15 minutes
 - Audit trail for all inspections
 - GDPR compliance for personal data
-```
+
+````
 
 ### 2. Feature-Level Context
 
@@ -362,7 +410,7 @@ spec:
       type: float64
       description: Current flow rate in m3/h
     pressure:
-      type: float64  
+      type: float64
       description: Operating pressure in bar
     efficiency:
       type: float64
@@ -373,7 +421,7 @@ spec:
     mtbf:
       type: float64
       description: Mean time between failures in hours
-```
+````
 
 ```python
 # @file:src/transformations/asset_hierarchy.py
@@ -386,19 +434,19 @@ def build_asset_hierarchy(
     source_data: List[Dict]
 ) -> List[Asset]:
     """Build asset hierarchy from source system data.
-    
+
     Args:
         client: CogniteClient instance
         source_data: Raw asset data from source system
-        
+
     Returns:
         List of Asset objects ready for upload
     """
     assets = []
-    
+
     # Create asset mapping for parent-child relationships
     asset_map = {item['TAG']: item for item in source_data}
-    
+
     for item in source_data:
         asset = Asset(
             external_id=f"sap:{item['TAG']}",
@@ -413,7 +461,7 @@ def build_asset_hierarchy(
             labels=[item['EQUIPMENT_TYPE'], item['LOCATION']]
         )
         assets.append(asset)
-    
+
     return assets
 ```
 
@@ -438,7 +486,7 @@ spec:
         space: cdf_cdm
         externalId: CogniteAsset
       containerPropertyIdentifier: name
-    # Custom pump properties  
+    # Custom pump properties
     flowRate:
       container:
         externalId: Pump
@@ -458,6 +506,7 @@ spec:
 ```
 
 #### Example: CDF Maintenance Management Feature
+
 **Context Setup for Maintenance Workflow:**
 
 ```yaml
@@ -515,13 +564,13 @@ def calculate_maintenance_kpis(
     end_date: datetime
 ) -> Dict[str, float]:
     """Calculate maintenance KPIs for assets.
-    
+
     Args:
         client: Cognite client instance
         asset_ids: List of asset IDs to analyze
         start_date: Start of analysis period
         end_date: End of analysis period
-        
+
     Returns:
         Dictionary of KPI values
     """
@@ -532,7 +581,7 @@ def calculate_maintenance_kpis(
         start_time={"min": start_date, "max": end_date},
         limit=None
     )
-    
+
     # Convert to DataFrame for analysis
     df = pd.DataFrame([
         {
@@ -543,7 +592,7 @@ def calculate_maintenance_kpis(
         }
         for e in events if e.end_time
     ])
-    
+
     # Calculate KPIs
     kpis = {
         'mttr': df.groupby('asset_id')['duration'].mean().mean(),  # Mean Time To Repair
@@ -551,7 +600,7 @@ def calculate_maintenance_kpis(
         'preventive_ratio': len(df[df['type'] == 'preventive']) / len(df),
         'emergency_ratio': len(df[df['type'] == 'corrective']) / len(df)
     }
-    
+
     return kpis
 ```
 
@@ -561,7 +610,7 @@ def calculate_maintenance_kpis(
 SELECT
   node_reference('MaintenanceOrder', concat('sap:pm:', AUFNR)) as id,
   'maintenance' as type,
-  CASE 
+  CASE
     WHEN AUART = 'PM01' THEN 'preventive'
     WHEN AUART = 'PM02' THEN 'corrective'
     WHEN AUART = 'PM03' THEN 'emergency'
@@ -579,7 +628,7 @@ SELECT
     'plannedCost', PLANNED_COST,
     'technician', RESPONSIBLE
   )) as metadata
-FROM 
+FROM
   `raw_sap`.`pm_orders`
 WHERE
   AUFNR IS NOT NULL
@@ -587,6 +636,7 @@ WHERE
 ```
 
 #### Example: CDF Time Series Analytics Feature
+
 **Context for Time Series Processing:**
 
 ```python
@@ -601,7 +651,7 @@ class TimeSeriesAnalyzer:
     def __init__(self, client: CogniteClient):
         self.client = client
         self.aggregation_methods = ['average', 'min', 'max', 'sum', 'count']
-        
+
     async def calculate_asset_oee(
         self,
         asset_external_id: str,
@@ -609,14 +659,14 @@ class TimeSeriesAnalyzer:
         end_time: str
     ) -> Dict[str, float]:
         """Calculate Overall Equipment Effectiveness (OEE) for an asset.
-        
+
         OEE = Availability × Performance × Quality
-        
+
         Args:
             asset_external_id: External ID of the asset
             start_time: Start of calculation period
             end_time: End of calculation period
-            
+
         Returns:
             Dictionary with OEE components and overall score
         """
@@ -629,7 +679,7 @@ class TimeSeriesAnalyzer:
             'good_units': f'pi:{asset_external_id}:good_units:count',
             'total_units': f'pi:{asset_external_id}:total_units:count'
         }
-        
+
         # Fetch all required time series
         datapoints = self.client.time_series.data.retrieve(
             external_id=list(ts_mapping.values()),
@@ -638,12 +688,12 @@ class TimeSeriesAnalyzer:
             aggregates=['sum'],
             granularity='1d'
         )
-        
+
         # Calculate OEE components
         availability = self._calculate_availability(datapoints)
         performance = self._calculate_performance(datapoints)
         quality = self._calculate_quality(datapoints)
-        
+
         return {
             'availability': availability,
             'performance': performance,
@@ -693,20 +743,20 @@ def create_aggregated_timeseries(
     granularity: str = '1h'
 ) -> TimeSeries:
     """Create aggregated time series for performance optimization.
-    
+
     Args:
         client: CogniteClient instance
         source_ts_id: Source time series ID
         target_ts_external_id: External ID for aggregated series
         aggregation: Aggregation method
         granularity: Time granularity
-        
+
     Returns:
         Created aggregated time series
     """
     # Get source time series metadata
     source_ts = client.time_series.retrieve(id=source_ts_id)
-    
+
     # Create aggregated time series
     aggregated_ts = client.time_series.create(
         TimeSeries(
@@ -723,18 +773,18 @@ def create_aggregated_timeseries(
             }
         )
     )
-    
+
     # Set up continuous aggregation job
     client.transformations.create(
         external_id=f"aggregate_{target_ts_external_id}",
         name=f"Aggregate {source_ts.name}",
         query=f"""
-        SELECT 
+        SELECT
           date_trunc('{granularity}', timestamp) as timestamp,
           {aggregation}(value) as value
-        FROM 
+        FROM
           timeseries('{source_ts.external_id}')
-        GROUP BY 
+        GROUP BY
           date_trunc('{granularity}', timestamp)
         """,
         destination={
@@ -743,14 +793,15 @@ def create_aggregated_timeseries(
         },
         schedule="0 * * * *"  # Run hourly
     )
-    
+
     return aggregated_ts
 ```
 
 ### 3. Task-Level Context
 
 #### Example: Implementing Asset Search in CDF
-```markdown
+
+````markdown
 I need to implement an asset search feature using CDF that:
 
 **Functional Requirements:**
@@ -775,17 +826,20 @@ I need to implement an asset search feature using CDF that:
           "metadata": {"location": location_filter}
       }
   }
-  ```
+````
+
 - Handle pagination with cursor-based navigation
 - Respect user's access permissions (capability-based filtering)
 
 **Performance Requirements:**
+
 - Search results return in < 500ms for up to 10,000 assets
 - Implement client-side caching of recent searches
 - Use CDF's search suggestions endpoint for autocomplete
 - Batch API requests when fetching related assets
 
 **UI Requirements:**
+
 - Display asset hierarchy in tree view
 - Show asset preview with key metadata
 - Highlight matching terms in results
@@ -793,13 +847,15 @@ I need to implement an asset search feature using CDF that:
 - Export search results to CSV/Excel
 
 **Acceptance Criteria:**
+
 - [ ] Search works across all indexed asset properties
 - [ ] Filters correctly narrow results
 - [ ] Performance meets targets with large asset hierarchies
 - [ ] Search history persists across sessions
 - [ ] Results respect data access permissions
 - [ ] Export includes all relevant asset metadata
-```
+
+````
 
 #### Example: Debugging CDF Query Performance
 ```markdown
@@ -830,19 +886,20 @@ assets = client.assets.list(
     asset_subtree_ids=[root_asset_id],
     limit=None  # This might be the issue
 )
-```
+````
 
 **Environment:**
+
 - Cognite Python SDK 7.13.0
 - CDF Project: acme-production
 - Asset count: ~50,000 total, ~5,000 in this facility
 - Running from Azure East US, CDF cluster in Europe
 
-**Code Context:**
-@file:src/services/asset_service.py (asset loading logic)
+**Code Context:** @file:src/services/asset_service.py (asset loading logic)
 @file:src/components/AssetTree.tsx (React component)
 @file:src/hooks/useAssetHierarchy.ts (data fetching hook)
-```
+
+````
 
 #### Example: CDF Events Integration Task
 ```markdown
@@ -874,9 +931,10 @@ event = Event(
         "repair_cost": estimated_cost
     }
 )
-```
+````
 
 **Data Quality Requirements:**
+
 - Validate asset IDs exist before creating events
 - Ensure start_time < end_time
 - Require minimum metadata fields for analysis
@@ -884,23 +942,27 @@ event = Event(
 - Validate against business rules (e.g., severity thresholds)
 
 **Performance Requirements:**
+
 - Batch create up to 1000 events per API call
 - Process historical data (100k+ events) within 1 hour
 - Real-time event creation latency < 1 second
 - Support concurrent event streams from multiple sources
 
 **Integration Points:**
+
 - Pull failure data from maintenance system (SAP PM)
 - Trigger notifications via CDF Functions
 - Update asset metadata with failure counts
 - Generate KPI metrics for dashboards
 
 **Testing Requirements:**
+
 - Unit tests for event validation logic
 - Integration tests with CDF SDK
 - Load tests for batch import performance
 - End-to-end test including notifications
-```
+
+````
 
 ## 📈 Benefits of Context Engineering
 
@@ -955,9 +1017,10 @@ def get_asset_data(asset_id):
     # Generic implementation
     response = requests.get(f"https://api.example.com/assets/{asset_id}")
     return response.json()
-```
+````
 
 ❌ **Problems**:
+
 - No CDF SDK usage
 - No error handling
 - No authentication
@@ -969,6 +1032,7 @@ def get_asset_data(asset_id):
 **Same Prompt** with proper context:
 
 **AI Output** (with context):
+
 ```python
 from typing import Optional, List, Dict
 from cognite.client import CogniteClient
@@ -987,32 +1051,32 @@ async def get_asset_with_hierarchy(
     client: Optional[CogniteClient] = None
 ) -> Optional[Asset]:
     """Fetch asset data with optional subtree from CDF.
-    
+
     Args:
         asset_external_id: External ID of the asset to fetch
         include_subtree: Whether to include all descendant assets
         client: Optional CogniteClient instance (uses default if None)
-        
+
     Returns:
         Asset object with metadata and relationships
-        
+
     Raises:
         CogniteAPIError: If asset not found or API error occurs
     """
     if not client:
         client = get_cdf_client()
-    
+
     try:
         # Fetch main asset with optimized projection
         asset = client.assets.retrieve(
             external_id=asset_external_id,
             ignore_unknown_ids=False
         )
-        
+
         if not asset:
             logger.warning(f"Asset not found: {asset_external_id}")
             return None
-            
+
         # Optionally fetch subtree
         if include_subtree:
             subtree_assets = client.assets.list(
@@ -1020,7 +1084,7 @@ async def get_asset_with_hierarchy(
                 limit=None
             )
             asset.subtree = subtree_assets
-            
+
         logger.info(
             f"Successfully fetched asset: {asset.name}",
             extra={
@@ -1028,9 +1092,9 @@ async def get_asset_with_hierarchy(
                 "subtree_count": len(subtree_assets) if include_subtree else 0
             }
         )
-        
+
         return asset
-        
+
     except CogniteAPIError as e:
         logger.error(
             f"Failed to fetch asset: {asset_external_id}",
@@ -1040,6 +1104,7 @@ async def get_asset_with_hierarchy(
 ```
 
 ✅ **Improvements**:
+
 - Uses Cognite SDK properly
 - Comprehensive error handling
 - Follows project logging standards
@@ -1077,6 +1142,7 @@ team-context/
 ### Context Review Process
 
 1. **Context Pull Requests**: Treat context updates like code
+
    ```bash
    git checkout -b update/context-maintenance-patterns
    # Edit .cursor/rules.md
@@ -1085,13 +1151,15 @@ team-context/
    git push origin update/context-maintenance-patterns
    ```
 
-2. **Weekly Context Sync**: Team meeting agenda
+1. **Weekly Context Sync**: Team meeting agenda
+
    - Review AI output failures
    - Identify missing context
    - Update rules collaboratively
    - Share successful patterns
 
-3. **Context Ownership**: Assign domain experts
+1. **Context Ownership**: Assign domain experts
+
    - Data Models: Data Architect owns model patterns
    - Transformations: Data Engineer owns SQL patterns
    - Functions: Backend Lead owns Python patterns
@@ -1114,19 +1182,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Validate Markdown Syntax
         run: |
           npm install -g markdownlint-cli
           markdownlint .cursor/rules.md
-          
+
       - name: Check for Placeholders
         run: |
           if grep -r "TODO\|FIXME\|<REPLACE_ME>" .cursor/; then
             echo "Found uncommitted placeholders"
             exit 1
           fi
-          
+
       - name: Validate Code Examples
         run: |
           python scripts/validate_context_examples.py
@@ -1139,40 +1207,53 @@ jobs:
 **Symptoms**: AI generates generic code despite `.cursor/rules.md`
 
 **Solutions**:
+
 1. **Check file location**: Must be exactly `.cursor/rules.md` in project root
-2. **Verify file detection**:
+
+1. **Verify file detection**:
+
    ```bash
    ls -la .cursor/rules.md
    # Should show file with content
    ```
-3. **Test with explicit reference**:
+
+1. **Test with explicit reference**:
+
    ```
    Following our project rules in .cursor/rules.md, create a function to...
    ```
-4. **Restart Cursor IDE**: Sometimes requires fresh context load
+
+1. **Restart Cursor IDE**: Sometimes requires fresh context load
 
 ### Issue: Inconsistent AI Outputs
 
 **Symptoms**: Same prompt gives different styles/patterns
 
 **Solutions**:
+
 1. **Add concrete examples**:
-   ```markdown
+
+   ````markdown
    ## Good Example
    ```python
    def calculate_oee(asset_id: str) -> float:
        """ALWAYS include docstrings like this."""
        pass
-   ```
-   
-   ## Bad Example  
-   ```python
-   def calc_oee(id):  # NO: Missing types and docstring
-       pass
-   ```
-   ```
+   ````
 
-2. **Use explicit constraints**:
+## Bad Example
+
+```python
+def calc_oee(id):  # NO: Missing types and docstring
+    pass
+```
+
+```
+
+```
+
+1. **Use explicit constraints**:
+
    ```markdown
    ## MANDATORY Rules
    - ALWAYS use type hints
@@ -1185,7 +1266,9 @@ jobs:
 **Symptoms**: AI responses are slow or incomplete
 
 **Solutions**:
+
 1. **Split context by domain**:
+
    ```
    .cursor/
    ├── rules.md          # Core rules only (< 1000 lines)
@@ -1195,11 +1278,12 @@ jobs:
        └── timeseries.md # Time series rules
    ```
 
-2. **Use context hierarchy**:
+1. **Use context hierarchy**:
+
    ```markdown
    # Core Rules (Always Active)
    Essential patterns here...
-   
+
    # Extended Rules (Reference when needed)
    See .cursor/domain/specific-feature.md
    ```
@@ -1209,12 +1293,15 @@ jobs:
 **Symptoms**: Different team members' code conflicts
 
 **Solutions**:
+
 1. **Version control context**:
+
    ```bash
    git log -p .cursor/rules.md  # Review context history
    ```
 
-2. **Context linting**:
+1. **Context linting**:
+
    ```python
    # scripts/lint_context.py
    def check_context_conflicts(file_path):
@@ -1227,15 +1314,16 @@ jobs:
 ## 🚀 Getting Started
 
 1. **Create `.cursor/rules.md`** in your project root
-2. **Use a context template** (see below) as starting point
-3. **Document your tech stack** and coding standards
-4. **Include real examples** from your codebase
-5. **Test and iterate** based on AI outputs
-6. **Share with team** via version control
+1. **Use a context template** (see below) as starting point
+1. **Document your tech stack** and coding standards
+1. **Include real examples** from your codebase
+1. **Test and iterate** based on AI outputs
+1. **Share with team** via version control
 
 ## 📋 Context Templates for Different Domains
 
 ### CDF Data Modeling Context Template
+
 ```markdown
 # CDF Data Modeling Project Context
 
@@ -1272,7 +1360,8 @@ All business objects must include:
 ```
 
 ### CDF Functions Context Template
-```markdown
+
+````markdown
 # CDF Functions Project Context
 
 ## Function Standards
@@ -1285,12 +1374,12 @@ All business objects must include:
 ```python
 def handle(client: CogniteClient, data: dict, secrets: dict) -> dict:
     """Standard function handler.
-    
+
     Args:
         client: Authenticated CogniteClient
         data: Input parameters
         secrets: Environment secrets
-        
+
     Returns:
         Structured response dict
     """
@@ -1300,11 +1389,13 @@ def handle(client: CogniteClient, data: dict, secrets: dict) -> dict:
     except Exception as e:
         logger.error(f"Function failed: {e}")
         return {"status": "error", "error": str(e)}
-```
+````
 
 ## Deployment Configuration
+
 [Include your deployment patterns]
-```
+
+````
 
 ### CDF Transformations Context Template
 ```markdown
@@ -1329,11 +1420,13 @@ SELECT
   property2,
   node_reference('RelatedView', related_id) as relationshipName
 FROM source_table
-```
+````
 
 ## Error Handling
+
 [Include your error handling patterns]
-```
+
+````
 
 ### CDF InField App Context Template
 ```markdown
@@ -1359,12 +1452,14 @@ FROM source_table
 
 ## Performance Requirements
 [Include your specific requirements]
-```
+````
 
 ## 📖 Next Steps
 
-- **[Quick Start Guide](quickstart_context_engineering.md)** - Practical setup instructions
-- **[Advanced Prompting](advanced_prompting.md)** - Combine context with sophisticated prompting
+- **[Quick Start Guide](quickstart_context_engineering.md)** - Practical setup
+  instructions
+- **[Advanced Prompting](advanced_prompting.md)** - Combine context with
+  sophisticated prompting
 - **[AI Workflows](ai_workflows/index.md)** - Real-world implementation examples
 
 ## 🎯 Success Metrics
@@ -1372,23 +1467,28 @@ FROM source_table
 Track these metrics to measure context engineering success:
 
 ### Productivity Metrics
+
 - **Time to Working Code**: 60-80% reduction after context implementation
 - **Refactoring Required**: < 20% of AI-generated code needs changes
 - **Review Comments**: 70% reduction in style-related PR comments
 - **Onboarding Time**: New developers productive in 2-3 days vs 2-3 weeks
 
-### Quality Metrics  
+### Quality Metrics
+
 - **Code Consistency**: 95%+ adherence to patterns
 - **Error Rates**: 50% reduction in common mistakes
 - **Test Coverage**: AI generates tests meeting coverage requirements
 - **Documentation**: 100% of generated code includes proper docs
 
 ### Team Metrics
+
 - **Context Contributions**: Each team member contributes monthly
 - **Pattern Reuse**: 80% of new code uses established patterns
 - **Knowledge Sharing**: Weekly context improvements
 - **Satisfaction**: Team reports higher confidence in AI tools
 
----
+______________________________________________________________________
 
-**Ready to implement context engineering?** Start with the **[Quick Start Guide](quickstart_context_engineering.md)** for immediate, practical steps.
+**Ready to implement context engineering?** Start with the
+**[Quick Start Guide](quickstart_context_engineering.md)** for immediate,
+practical steps.

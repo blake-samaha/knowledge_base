@@ -19,4 +19,4 @@ Pygments>=2.15.0
 
 # Optional: For advanced features
 # mkdocs-mermaid2-plugin>=0.6.0  # For Mermaid diagrams
-# mkdocs-print-site-plugin>=0.0.1  # For PDF generation 
+# mkdocs-print-site-plugin>=0.0.1  # For PDF generation

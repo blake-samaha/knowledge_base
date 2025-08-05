@@ -1,20 +1,25 @@
 # AI Instructions: Project Re-alignment & Validation Check
 
-This document provides instructions for an AI Assistant to perform a **full validation audit** of an existing project's specification layer. This is a read-only process designed to identify gaps and inconsistencies.
+This document provides instructions for an AI Assistant to perform a **full
+validation audit** of an existing project's specification layer. This is a
+read-only process designed to identify gaps and inconsistencies.
 
----
+______________________________________________________________________
 
 ## **Step 1: Validate Foundation and Conceptual Model**
 
 - **AI Action:**
-    1. Read `docs/00_Solution_Design_Principles.md`.
-    2. Read `docs/01_Conceptual_Data_Model_Overview.md`.
-    3. Cross-reference the two files. For example, ensure that any `externalId`s referenced in the conceptual model are defined in the principles document.
-    4. Create a new `docs/PROJECT_VALIDATION_REPORT.md` file.
-    5. Log any unfilled `<REPLACE_ME: ...>` placeholders from both files into the report.
-    6. Log any inconsistencies found between the two files into the report.
+  1. Read `docs/00_Solution_Design_Principles.md`.
+  1. Read `docs/01_Conceptual_Data_Model_Overview.md`.
+  1. Cross-reference the two files. For example, ensure that any `externalId`s
+     referenced in the conceptual model are defined in the principles document.
+  1. Create a new `docs/PROJECT_VALIDATION_REPORT.md` file.
+  1. Log any unfilled `<REPLACE_ME: ...>` placeholders from both files into the
+     report.
+  1. Log any inconsistencies found between the two files into the report.
 
 **Example CLI Commands:**
+
 ```bash
 # Validate foundation specification
 python tools/spec_validator.py docs/00_Solution_Design_Principles.md --output docs/PROJECT_VALIDATION_REPORT.md
@@ -30,11 +35,12 @@ python tools/placeholder_checker.py docs/00_Solution_Design_Principles.md docs/0
 ```
 
 **Sample Validation Report Output (`PROJECT_VALIDATION_REPORT.md`):**
+
 ```markdown
 # Project Validation Report
 
-**Generated:** 2024-01-15T10:30:00Z  
-**Project:** Well Performance Monitoring  
+**Generated:** 2024-01-15T10:30:00Z
+**Project:** Well Performance Monitoring
 **Validation Status:** ❌ Issues Found
 
 ## Foundation Specification Validation
@@ -74,21 +80,28 @@ python tools/placeholder_checker.py docs/00_Solution_Design_Principles.md docs/0
 - **Recommendation:** Resolve all placeholder content and cross-reference inconsistencies before proceeding
 ```
 
----
+______________________________________________________________________
 
 ## **Step 2: Validate All Object Specifications**
 
 - **AI Action:**
-    1. Read the `docs/specifications/conceptual_model.json` to get a list of all business objects.
-    2. For each object in the list, read its corresponding `docs/[ConceptName]_Specification.md` file.
-    3. **Validate Completeness:** Check for any unfilled `<REPLACE_ME: ...>` placeholders within each specification file and log them to the report.
-    4. **Validate Consistency:** Cross-reference each specification file against the `00_Solution_Design_Principles.md`. For example:
-        - Does the specified `CDF Data Set` exist in the principles document?
-        - Does the specified `Primary RAW Table` exist in the principles document?
-        - Are all relationships pointing to `Target Type`s that exist as other business objects in the conceptual model?
-    5. Log all findings (missing information, inconsistencies) to the `docs/PROJECT_VALIDATION_REPORT.md`.
+  1. Read the `docs/specifications/conceptual_model.json` to get a list of all
+     business objects.
+  1. For each object in the list, read its corresponding
+     `docs/[ConceptName]_Specification.md` file.
+  1. **Validate Completeness:** Check for any unfilled `<REPLACE_ME: ...>`
+     placeholders within each specification file and log them to the report.
+  1. **Validate Consistency:** Cross-reference each specification file against
+     the `00_Solution_Design_Principles.md`. For example:
+     - Does the specified `CDF Data Set` exist in the principles document?
+     - Does the specified `Primary RAW Table` exist in the principles document?
+     - Are all relationships pointing to `Target Type`s that exist as other
+       business objects in the conceptual model?
+  1. Log all findings (missing information, inconsistencies) to the
+     `docs/PROJECT_VALIDATION_REPORT.md`.
 
 **Example CLI Commands:**
+
 ```bash
 # Get list of all business objects from conceptual model
 python tools/extract_objects.py docs/specifications/conceptual_model.json --output object_list.json
@@ -110,11 +123,12 @@ python tools/datasource_validator.py docs/specifications/ --principles docs/00_S
 ```
 
 **Sample Extended Validation Report:**
+
 ```markdown
 # Project Validation Report (Extended)
 
-**Generated:** 2024-01-15T10:30:00Z  
-**Project:** Well Performance Monitoring  
+**Generated:** 2024-01-15T10:30:00Z
+**Project:** Well Performance Monitoring
 **Validation Status:** ❌ Issues Found
 
 ## Foundation Specification Validation
@@ -185,16 +199,19 @@ python tools/datasource_validator.py docs/specifications/ --principles docs/00_S
 - **Recommendation:** Complete all placeholder content and resolve all cross-reference issues before proceeding with implementation
 ```
 
----
+______________________________________________________________________
 
 ## **Step 3: Final Report**
 
 - **AI Action:**
-    1. Add a summary to the top of the `docs/PROJECT_VALIDATION_REPORT.md`.
-    2. If no issues were found, the summary should state that the project specification is complete and consistent.
-    3. If issues were found, the summary should state that gaps and inconsistencies need to be resolved.
+  1. Add a summary to the top of the `docs/PROJECT_VALIDATION_REPORT.md`.
+  1. If no issues were found, the summary should state that the project
+     specification is complete and consistent.
+  1. If issues were found, the summary should state that gaps and
+     inconsistencies need to be resolved.
 
 **Example CLI Commands:**
+
 ```bash
 # Generate final summary and recommendations
 python tools/final_report_generator.py docs/PROJECT_VALIDATION_REPORT.md --output docs/PROJECT_VALIDATION_REPORT.md
@@ -207,11 +224,12 @@ python tools/quick_fix_generator.py docs/PROJECT_VALIDATION_REPORT.md --output f
 ```
 
 **Sample Final Report Summary:**
+
 ```markdown
 # Project Validation Report (Final)
 
-**Generated:** 2024-01-15T10:30:00Z  
-**Project:** Well Performance Monitoring  
+**Generated:** 2024-01-15T10:30:00Z
+**Project:** Well Performance Monitoring
 **Validation Status:** ❌ **CRITICAL ISSUES FOUND**
 
 ## Executive Summary
@@ -268,9 +286,10 @@ The project specification has **15 total issues** that must be resolved before p
 **Recommendation:** **DO NOT PROCEED** with implementation until all critical issues are resolved.
 ```
 
-- **AI Output:** A detailed `docs/PROJECT_VALIDATION_REPORT.md` that serves as an actionable quality review for the Solution Architect.
+- **AI Output:** A detailed `docs/PROJECT_VALIDATION_REPORT.md` that serves as
+  an actionable quality review for the Solution Architect.
 
----
+______________________________________________________________________
 
 ## **Step 4: Continuous Integration Hook**
 
@@ -316,14 +335,13 @@ jobs:
 ## 📊 Quality Metrics & Thresholds
 
 | Metric | Threshold | CI Fail Condition |
-|--------|-----------|-------------------|
-| Critical Issues | 0 | `critical > 0` |
-| Total Placeholders | 0 | `placeholders > 0` |
-| Invalid Relationships | 0 | any |
-| Undefined Datasets | 0 | any |
-| Naming Convention Violations | <5 | `violations >= 5` |
+|--------|-----------|-------------------| | Critical Issues | 0 |
+`critical > 0` | | Total Placeholders | 0 | `placeholders > 0` | | Invalid
+Relationships | 0 | any | | Undefined Datasets | 0 | any | | Naming Convention
+Violations | \<5 | `violations >= 5` |
 
-> The `ci_realignment.py` script exits with non-zero code if any threshold is exceeded.
+> The `ci_realignment.py` script exits with non-zero code if any threshold is
+> exceeded.
 
 ## 🚀 Automated Remediation Script
 
@@ -334,12 +352,14 @@ bash fix_validation_issues.sh --apply-patches --commit-msg "Auto-fix placeholder
 ```
 
 The script:
-1. Fills obvious placeholders using heuristics (e.g., copy name into summary).  
-2. Renames external IDs to snake_case.  
-3. Inserts missing dataset stubs in design principles.
+
+1. Fills obvious placeholders using heuristics (e.g., copy name into summary).
+1. Renames external IDs to snake_case.
+1. Inserts missing dataset stubs in design principles.
 
 Manual review still required before merging.
 
----
+______________________________________________________________________
 
-> **Next Step**: Integrate the CI workflow into your repository and resolve any failing checks before deployment.
+> **Next Step**: Integrate the CI workflow into your repository and resolve any
+> failing checks before deployment.

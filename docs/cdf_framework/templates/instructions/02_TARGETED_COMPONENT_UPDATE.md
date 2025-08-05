@@ -1,19 +1,25 @@
 # AI Instructions: Targeted Component Update
 
-This document provides a step-by-step guide for an AI Assistant to perform a **targeted update** to a single business object within an existing project.
+This document provides a step-by-step guide for an AI Assistant to perform a
+**targeted update** to a single business object within an existing project.
 
----
+______________________________________________________________________
 
 ## **Step 1: Update the Specification Files**
 
 - **Input:** The user-modified `docs/[ObjectName]_Specification.md` file.
 - **Instructions:**
-    1. Read the updated Markdown specification file.
-    2. **Regenerate JSON:** Based on the updated content, regenerate the corresponding `docs/specifications/[ObjectName]_spec.json` file.
-    3. **Update Master Spec:** Load the master `docs/specifications/project_specification.json` file and replace the old object definition with the newly generated one.
-    4. **Summarize Gaps:** Append any new assumptions or identified gaps for this change to `docs/ASSUMPTIONS_AND_GAPS.md`.
+  1. Read the updated Markdown specification file.
+  1. **Regenerate JSON:** Based on the updated content, regenerate the
+     corresponding `docs/specifications/[ObjectName]_spec.json` file.
+  1. **Update Master Spec:** Load the master
+     `docs/specifications/project_specification.json` file and replace the old
+     object definition with the newly generated one.
+  1. **Summarize Gaps:** Append any new assumptions or identified gaps for this
+     change to `docs/ASSUMPTIONS_AND_GAPS.md`.
 
 **Example CLI Commands:**
+
 ```bash
 # Regenerate JSON for the updated object
 python tools/spec_from_markdown.py docs/Well_Specification.md --output docs/specifications/well_spec.json
@@ -29,6 +35,7 @@ python tools/gap_analyzer.py docs/Well_Specification.md --existing-gaps docs/ASS
 ```
 
 **Sample JSON Output (Updated `well_spec.json`):**
+
 ```json
 {
   "object": {
@@ -126,22 +133,28 @@ python tools/gap_analyzer.py docs/Well_Specification.md --existing-gaps docs/ASS
 }
 ```
 
-- **Output:** The updated `docs/specifications/[ObjectName]_spec.json` and `docs/specifications/project_specification.json` files.
+- **Output:** The updated `docs/specifications/[ObjectName]_spec.json` and
+  `docs/specifications/project_specification.json` files.
 
----
+______________________________________________________________________
 
 ## **Step 2: Regenerate Only Affected CDF Artifacts**
 
-- **Input:** The updated `docs/specifications/project_specification.json` and the `externalId` of the business object that changed.
+- **Input:** The updated `docs/specifications/project_specification.json` and
+  the `externalId` of the business object that changed.
 - **Process:**
-    1. Parse the `project_specification.json` to find the changed business object.
-    2. Regenerate only the specific YAML files related to that object. This includes:
-        - `data_models/containers/{object_externalId}.container.yaml`
-        - `data_models/views/{object_externalId}.view.yaml`
-        - `transformations/{object_externalId}_transformation.transformation.yaml` (if applicable)
-    3. Update the main `{datamodel_name}.datamodel.yaml` file to ensure its `views` list is still correct.
+  1. Parse the `project_specification.json` to find the changed business object.
+  1. Regenerate only the specific YAML files related to that object. This
+     includes:
+     - `data_models/containers/{object_externalId}.container.yaml`
+     - `data_models/views/{object_externalId}.view.yaml`
+     - `transformations/{object_externalId}_transformation.transformation.yaml`
+       (if applicable)
+  1. Update the main `{datamodel_name}.datamodel.yaml` file to ensure its
+     `views` list is still correct.
 
 **Example CLI Commands:**
+
 ```bash
 # Regenerate only the affected YAML files for the well object
 python tools/yaml_from_spec.py docs/specifications/project_specification.json --object well_master_data --output config/modules/well_performance_module/
@@ -157,6 +170,7 @@ python tools/yaml_diff.py config/modules/well_performance_module/ --before-snaps
 ```
 
 **Sample YAML Output (Updated `well_master_data.container.yaml`):**
+
 ```yaml
 apiVersion: v1
 kind: Container
@@ -201,6 +215,7 @@ spec:
 ```
 
 **Sample YAML Output (Updated `well_master_data.view.yaml`):**
+
 ```yaml
 apiVersion: v1
 kind: View
@@ -255,7 +270,9 @@ spec:
       description: Real-time flow rate measurements from the well
 ```
 
-**Sample YAML Output (Updated `well_master_data_transformation.transformation.yaml`):**
+**Sample YAML Output (Updated
+`well_master_data_transformation.transformation.yaml`):**
+
 ```yaml
 apiVersion: v1
 kind: Transformation
@@ -285,72 +302,92 @@ spec:
     WHERE WELL_ID IS NOT NULL
 ```
 
-- **Output:** Overwrite only the specific YAML files that were affected by the change.
+- **Output:** Overwrite only the specific YAML files that were affected by the
+  change.
 
----
+______________________________________________________________________
 
 ## **Step 3: Impact Analysis & Rollback Plan**
 
-Once YAML artefacts are regenerated, assess downstream impact *before* deployment.
+Once YAML artefacts are regenerated, assess downstream impact *before*
+deployment.
 
-1. **Generate Diff Report**  
+1. **Generate Diff Report**
+
    ```bash
    cognite toolkit diff --project my-cdf-project --module well_performance_module \
        --env dev --new-config config/ --output diff_report.md
    ```
-2. **Classify Changes**  
-   Parse `diff_report.md` and tag each change: `BREAKING`, `NON_BREAKING`, `PERFORMANCE`, `SECURITY`.
-3. **Estimate Downtime**  
+
+1. **Classify Changes**\
+   Parse `diff_report.md` and tag each change: `BREAKING`, `NON_BREAKING`,
+   `PERFORMANCE`, `SECURITY`.
+
+1. **Estimate Downtime**\
    Use `tools/impact_estimator.py` to predict ingestion lag or API downtime.
-4. **Stakeholder Sign-Off**  
-   Update `CHANGE_REQUEST.md` with summary and obtain approvals (Ops, Data Governance).
-5. **Rollback Scripts**  
-   Auto-generate rollback YAML:  
+
+1. **Stakeholder Sign-Off**\
+   Update `CHANGE_REQUEST.md` with summary and obtain approvals (Ops, Data
+   Governance).
+
+1. **Rollback Scripts**\
+   Auto-generate rollback YAML:
+
    ```bash
    python tools/generate_rollback.py diff_report.md --output rollback/ --mode safety
    ```
 
-> **Rollback Policy:** Always keep previous YAML bundle (`before_changes/`) for instant re-apply using `cognite toolkit apply --dir before_changes/`.
+> **Rollback Policy:** Always keep previous YAML bundle (`before_changes/`) for
+> instant re-apply using `cognite toolkit apply --dir before_changes/`.
 
 ### Before / After Example
 
 | Metric | Before Update | After Update |
-|--------|---------------|--------------|
-| Container properties | 6 | 8 |
-| Transformation runtime | 2m 15s | 2m 18s |
-| View query latency (p95) | 750 ms | 780 ms |
+|--------|---------------|--------------| | Container properties | 6 | 8 | |
+Transformation runtime | 2m 15s | 2m 18s | | View query latency (p95) | 750 ms |
+780 ms |
 
 If p95 latency ↑ >10 %, mark as `PERFORMANCE` and re-evaluate query.
 
----
+______________________________________________________________________
 
 ## **Step 4: Deploy & Monitor**
 
-1. **Dry-Run Deployment**  
+1. **Dry-Run Deployment**
+
    ```bash
    cognite toolkit apply --dry-run --project my-cdf-project --env dev --dir config/
    ```
-2. **Live Deployment** (if dry-run clean)  
+
+1. **Live Deployment** (if dry-run clean)
+
    ```bash
    cognite toolkit apply --project my-cdf-project --env dev --dir config/ --yes
    ```
-3. **Post-Deploy Smoke Tests**  
+
+1. **Post-Deploy Smoke Tests**\
    Run `pytest tests/smoke/` which includes:
+
    - Container existence check
    - Transformation run status == `Completed`
    - Sample view query returns >0 rows
-4. **Performance Monitoring**  
-   Execute `python tools/perf_monitor.py --object well_master_data --duration 60` to track latency and ingest rate.
-5. **Alerting**  
+
+1. **Performance Monitoring**\
+   Execute
+   `python tools/perf_monitor.py --object well_master_data --duration 60` to
+   track latency and ingest rate.
+
+1. **Alerting**\
    If error rate >1 % or latency ↑ 20 % => auto-trigger rollback script.
 
----
+______________________________________________________________________
 
 ## **Real-World Scenario: Add New Property to Well**
 
 **Change Request:** Add `completionDate` (timestamp) to **Well** object.
 
 ### 1. Update Spec (Markdown)
+
 ```md
 - **Property:**
     - **Name:** completionDate
@@ -361,24 +398,29 @@ If p95 latency ↑ >10 %, mark as `PERFORMANCE` and re-evaluate query.
 ```
 
 ### 2. Run Steps 1-4 Above
+
 Expected artefact changes: container, view, transformation SQL.
 
 ### 3. Validation
+
 - Transformation SQL recompiles ✅
 - View returns `completionDate` column ✅
 - No existing queries fail (nullable) ✅
 
----
+______________________________________________________________________
 
 ## **Common Pitfalls & Solutions**
 
-| Pitfall | Symptom | Fix |
-|---------|---------|-----|
-| Forgetting to update `datamodel.yaml` | Toolkit error "view not found" | Re-run `update_datamodel.py` step. |
-| Adding non-nullable property without default | Transformation fails on NULL | Provide `COALESCE()` or set `nullable: true` initially. |
-| Breaking relationship targets | View creation fails | Validate target external IDs exist; regenerate dependent views first. |
-| Overwriting unrelated YAML | Git diff shows large changes | Use `--object` flag to limit generator to specific component. |
+| Pitfall | Symptom | Fix | |---------|---------|-----| | Forgetting to update
+`datamodel.yaml` | Toolkit error "view not found" | Re-run `update_datamodel.py`
+step. | | Adding non-nullable property without default | Transformation fails on
+NULL | Provide `COALESCE()` or set `nullable: true` initially. | | Breaking
+relationship targets | View creation fails | Validate target external IDs exist;
+regenerate dependent views first. | | Overwriting unrelated YAML | Git diff
+shows large changes | Use `--object` flag to limit generator to specific
+component. |
 
----
+______________________________________________________________________
 
-> **Next Step**: After stable deployment in *dev*, promote YAML to *prod* via standard Git flow (PR & review) and rerun Steps 3-4 with `--env prod`.
+> **Next Step**: After stable deployment in *dev*, promote YAML to *prod* via
+> standard Git flow (PR & review) and rerun Steps 3-4 with `--env prod`.
