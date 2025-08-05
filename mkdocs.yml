@@ -1,0 +1,173 @@
+site_name: AI-Assisted Development Knowledge Base
+site_description: Comprehensive knowledge base for AI-assisted development workflows and CDF deployment templates
+site_author: Your Organization
+repo_name: your-org/knowledge_base
+repo_url: https://github.com/your-org/knowledge_base
+site_url: https://your-org.github.io/knowledge_base
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.instant.result
+    - navigation.instant.suggest
+    - navigation.instant.tracking
+    - navigation.instant.worker
+    - navigation.instant.worker.offline
+    - navigation.instant.worker.warmup
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Quick Start:
+      - Overview: site-index.md
+      - For Project Managers: ai_knowledge/quickstart_context_engineering.md
+      - For Developers: ai_knowledge/advanced_prompting.md
+      - For CDF Teams: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
+  - AI Knowledge:
+      - Overview: ai_knowledge/index.md
+      - Context Engineering: ai_knowledge/context_engineering.md
+      - Advanced Prompting: ai_knowledge/advanced_prompting.md
+      - Prompt Techniques: ai_knowledge/prompt_techniques_overview.md
+      - AI Workflows: ai_knowledge/ai_workflows/index.md
+      - ROI Analysis: ai_knowledge/includes/roi_taxonomy.md
+  - CDF Framework:
+      - Solution Design: 00_Solution_Design_Principles.md
+      - Data Model Overview: 01_Conceptual_Data_Model_Overview.md
+      - Object Specification: XX_Object_Specification_Template.md
+      - Production Templates:
+          - Initial Project Generation: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
+          - Targeted Component Update: cdf_framework/templates/instructions/02_TARGETED_COMPONENT_UPDATE.md
+          - Project Realignment Check: cdf_framework/templates/instructions/03_PROJECT_REALIGNMENT_CHECK.md
+  - Governance: GOVERNANCE.md
+  - Contributing: contributing.md
+
+# Plugins
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+
+# Markdown extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - codehilite:
+      guess_lang: false
+      use_pygments: true
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra CSS and JS
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Copyright
+copyright: Copyright &copy; 2024 Your Organization
+
+# Social links
+social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/your-org/knowledge_base
+  - icon: fontawesome/brands/discord
+    link: https://discord.gg/your-org
+  - icon: fontawesome/brands/twitter
+    link: https://twitter.com/your-org
+
+# Validation
+validation:
+  nav:
+    omitted_files: ignore
+  not_found: warn

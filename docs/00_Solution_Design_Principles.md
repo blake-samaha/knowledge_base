@@ -11,11 +11,11 @@ The AI will use this document to generate the foundational configuration.
 - **Module Name:** `<REPLACE_ME: The desired name for the toolkit module, e.g., "well_performance_module">`
 - **Business Goal:** `<REPLACE_ME: A one-sentence summary of the primary business objective.>`
 - **Primary Use Cases:**
-  - `<REPLACE_ME: Use Case 1>`
-  - `<REPLACE_ME: Use Case 2>`
+    - `<REPLACE_ME: Use Case 1>`
+    - `<REPLACE_ME: Use Case 2>`
 - **Key Stakeholders:**
-  - `<REPLACE_ME: Role 1, e.g., Reliability Engineer>`
-  - `<REPLACE_ME: Role 2, e.g., Operations Manager>`
+    - `<REPLACE_ME: Role 1, e.g., Reliability Engineer>`
+    - `<REPLACE_ME: Role 2, e.g., Operations Manager>`
 
 ---
 
@@ -38,11 +38,11 @@ A source ID is the unique identifier from your Identity Provider (e.g., an Azure
 The AI will use these to create `config.[env].yaml` files.
 -->
 - **Environment:** `dev`
-  - **`admin_group_source_id`:** `<REPLACE_ME: IdP source ID for the admin group in dev>`
-  - **`user_group_source_id`:** `<REPLACE_ME: IdP source ID for the user group in dev>`
+    - **`admin_group_source_id`:** `<REPLACE_ME: IdP source ID for the admin group in dev>`
+    - **`user_group_source_id`:** `<REPLACE_ME: IdP source ID for the user group in dev>`
 - **Environment:** `prod`
-  - **`admin_group_source_id`:** `<REPLACE_ME: IdP source ID for the admin group in prod>`
-  - **`user_group_source_id`:** `<REPLACE_ME: IdP source ID for the user group in prod>`
+    - **`admin_group_source_id`:** `<REPLACE_ME: IdP source ID for the admin group in prod>`
+    - **`user_group_source_id`:** `<REPLACE_ME: IdP source ID for the user group in prod>`
 
 ### CDF Data Space
 
@@ -54,38 +54,38 @@ The AI will use these to create `config.[env].yaml` files.
 
 <!-- Define each data set required. Data sets group data from a common source. -->
 - **Data Set:**
-  - **External ID:** `<REPLACE_ME: e.g., ds_source_system_raw_data>`
-  - **Name:** `<REPLACE_ME: e.g., Source System - RAW Data>`
-  - **Description:** `<REPLACE_ME: A summary of the data set's contents.>`
+    - **External ID:** `<REPLACE_ME: e.g., ds_source_system_raw_data>`
+    - **Name:** `<REPLACE_ME: e.g., Source System - RAW Data>`
+    - **Description:** `<REPLACE_ME: A summary of the data set's contents.>`
 - **Data Set:**
-  - **External ID:** `<REPLACE_ME: e.g., ds_my_project_processed_data>`
-  - **Name:** `<REPLACE_ME: e.g., My Project - Processed Data>`
-  - **Description:** `<REPLACE_ME: A summary of the data set's contents.>`
+    - **External ID:** `<REPLACE_ME: e.g., ds_my_project_processed_data>`
+    - **Name:** `<REPLACE_ME: e.g., My Project - Processed Data>`
+    - **Description:** `<REPLACE_ME: A summary of the data set's contents.>`
 
 ### RAW Databases & Tables
 
 <!-- Define each source system that will provide data to CDF RAW. -->
 - **Source System:** `<REPLACE_ME: e.g., "SAP S4/HANA">`
-  - **RAW Database Name:** `<REPLACE_ME: e.g., raw_sap_s4hana>`
-  - **RAW Table(s):**
-    - `<REPLACE_ME: table_name_1>`
-    - `<REPLACE_ME: table_name_2>`
-  - **Description:** `<REPLACE_ME: What data these tables hold.>`
+    - **RAW Database Name:** `<REPLACE_ME: e.g., raw_sap_s4hana>`
+    - **RAW Table(s):**
+        - `<REPLACE_ME: table_name_1>`
+        - `<REPLACE_ME: table_name_2>`
+    - **Description:** `<REPLACE_ME: What data these tables hold.>`
 
 ### Access Management & Security Roles
 
 <!-- Define the access roles needed for this solution. -->
 - **Role:** `<REPLACE_ME: e.g., Data Administrator>`
-  - **Source ID Variable:** `{{ admin_group_source_id }}` <!-- This MUST match a variable in the Environments section -->
-  - **Permissions Summary:** "Full control over all resources in this solution."
-  - **CDF Capabilities:** <!-- List the required permissions for this role -->
-    - `datamodels:read,write`
-    - `datasets:read,write`
+    - **Source ID Variable:** `{{ admin_group_source_id }}` <!-- This MUST match a variable in the Environments section -->
+    - **Permissions Summary:** "Full control over all resources in this solution."
+    - **CDF Capabilities:** <!-- List the required permissions for this role -->
+        - `datamodels:read,write`
+        - `datasets:read,write`
 - **Role:** `<REPLACE_ME: e.g., Application User>`
-  - **Source ID Variable:** `{{ user_group_source_id }}` <!-- This MUST match a variable in the Environments section -->
-  - **Permissions Summary:** "Read-only access to the final processed data."
-  - **CDF Capabilities:** <!-- List the required permissions for this role -->
-    - `datamodels:read`
+    - **Source ID Variable:** `{{ user_group_source_id }}` <!-- This MUST match a variable in the Environments section -->
+    - **Permissions Summary:** "Read-only access to the final processed data."
+    - **CDF Capabilities:** <!-- List the required permissions for this role -->
+        - `datamodels:read`
 
 ---
 
