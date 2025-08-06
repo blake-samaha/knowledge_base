@@ -46,6 +46,7 @@ developer productivity.
   and advanced methods
 - **[Production Templates](../cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)**
   \- Real-world applications
+- [Build First CDF Model Tutorial](tutorials/build_first_cdf_model.md)
 
 ## 🚀 Quick Wins
 
@@ -105,6 +106,13 @@ techniques and adapt your approach as the field advances.
 For comprehensive coverage of all AI-assisted development topics, see the
 **[Advanced Prompting Techniques](advanced_prompting.md)** document for deep
 technical content.
+
+## See Also
+
+- [CDF Framework Overview](../cdf_framework/index.md)
+- [Production Templates](../cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)
+- [CDF Performance Guide](../cdf_framework/performance_optimization.md)
+- [Cursor Rules Overview](cursor_rules_overview.md)
 
 ______________________________________________________________________
 

@@ -42,12 +42,12 @@ Deploy production-ready CDF solutions with infrastructure-as-code:
 
 ### For CDF Implementation
 
-- **[Solution Design Principles](00_Solution_Design_Principles.md)** - Project
-  foundation template
-- **[Data Model Overview](01_Conceptual_Data_Model_Overview.md)** - Data
-  modeling template
-- **[Object Specification Template](XX_Object_Specification_Template.md)** -
-  Business object definitions
+- **[Solution Design Principles](cdf_framework/templates/00_Solution_Design_Principles.md)**
+  \- Project foundation template
+- **[Data Model Overview](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)**
+  \- Data modeling template
+- **[Object Specification Template](cdf_framework/templates/XX_Object_Specification_Template.md)**
+  \- Business object definitions
 - **[Production Templates](cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)**
   \- Automated CDF generation
 
@@ -66,9 +66,10 @@ Deploy production-ready CDF solutions with infrastructure-as-code:
 [Prompt Techniques](ai_knowledge/prompt_techniques_overview.md) |
 [Cursor Quick-start](ai_knowledge/quickstart_context_engineering.md)
 
-**CDF Framework:** [Solution Design](00_Solution_Design_Principles.md) |
-[Data Modeling](01_Conceptual_Data_Model_Overview.md) |
-[Object Templates](XX_Object_Specification_Template.md)
+**CDF Framework:**
+[Solution Design](cdf_framework/templates/00_Solution_Design_Principles.md) |
+[Data Modeling](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md) |
+[Object Templates](cdf_framework/templates/XX_Object_Specification_Template.md)
 
 **Toolkit Workflows:**
 [Project Generation](cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)
@@ -83,14 +84,14 @@ Deploy production-ready CDF solutions with infrastructure-as-code:
 
 | Title | Category | Keywords | Description |
 |-------|----------|----------|-------------| |
-[Solution Design Principles](00_Solution_Design_Principles.md) | CDF Framework |
-`governance`, `project-setup`, `architecture`, `standards` | Foundation document
-for CDF project configuration and governance | |
-[Conceptual Data Model Overview](01_Conceptual_Data_Model_Overview.md) | CDF
-Framework | `data-modeling`, `relationships`, `business-objects` | High-level
-structure for data models and object relationships | |
-[Object Specification Template](XX_Object_Specification_Template.md) | CDF
-Framework | `data-modeling`, `templates`, `specifications`, `properties` |
+[Solution Design Principles](cdf_framework/templates/00_Solution_Design_Principles.md)
+| CDF Framework | `governance`, `project-setup`, `architecture`, `standards` |
+Foundation document for CDF project configuration and governance | |
+[Conceptual Data Model Overview](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)
+| CDF Framework | `data-modeling`, `relationships`, `business-objects` |
+High-level structure for data models and object relationships | |
+[Object Specification Template](cdf_framework/templates/XX_Object_Specification_Template.md)
+| CDF Framework | `data-modeling`, `templates`, `specifications`, `properties` |
 Detailed template for defining business objects and their properties | |
 [AI Knowledge Overview](ai_knowledge/index.md) | AI Knowledge | `ai`,
 `overview`, `learning-resources` | Main entry point for AI-assisted development
@@ -157,12 +158,12 @@ Implement complex workflows and production systems:
 
 ### Core Templates
 
-- **[Solution Design Principles](00_Solution_Design_Principles.md)** - Project
-  foundation and governance
-- **[Conceptual Data Model](01_Conceptual_Data_Model_Overview.md)** - High-level
-  data modeling
-- **[Object Specification Template](XX_Object_Specification_Template.md)** -
-  Detailed business object definitions
+- **[Solution Design Principles](cdf_framework/templates/00_Solution_Design_Principles.md)**
+  \- Project foundation and governance
+- **[Conceptual Data Model](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)**
+  \- High-level data modeling
+- **[Object Specification Template](cdf_framework/templates/XX_Object_Specification_Template.md)**
+  \- Detailed business object definitions
 
 ### Production Workflows
 
@@ -193,10 +194,11 @@ Learn to leverage AI assistants effectively in development workflows.
 Build scalable, maintainable CDF projects with infrastructure-as-code
 approaches.
 
-- **Foundation:** [Solution Design Principles](00_Solution_Design_Principles.md)
+- **Foundation:**
+  [Solution Design Principles](cdf_framework/templates/00_Solution_Design_Principles.md)
 - **Data Modeling:**
-  [Conceptual Data Model Overview](01_Conceptual_Data_Model_Overview.md),
-  [Object Specification Template](XX_Object_Specification_Template.md)
+  [Conceptual Data Model Overview](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md),
+  [Object Specification Template](cdf_framework/templates/XX_Object_Specification_Template.md)
 
 ### ⚙️ Toolkit Workflows & Automation
 
@@ -223,10 +225,11 @@ Establish processes for managing AI-assisted development and CDF projects.
   [Prompt Techniques Overview](ai_knowledge/prompt_techniques_overview.md) →
   [Advanced Prompting](ai_knowledge/advanced_prompting.md)
 - **Design a new CDF project** →
-  [Solution Design Principles](00_Solution_Design_Principles.md) →
-  [Conceptual Data Model](01_Conceptual_Data_Model_Overview.md)
+  [Solution Design Principles](cdf_framework/templates/00_Solution_Design_Principles.md)
+  →
+  [Conceptual Data Model](cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)
 - **Define business objects** →
-  [Object Specification Template](XX_Object_Specification_Template.md)
+  [Object Specification Template](cdf_framework/templates/XX_Object_Specification_Template.md)
 - **Generate CDF configurations** →
   [Initial Project Generation](cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)
 - **Update existing components** →

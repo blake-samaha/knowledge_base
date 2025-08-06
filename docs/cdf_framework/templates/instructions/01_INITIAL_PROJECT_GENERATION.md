@@ -5,15 +5,16 @@ This document is a stateful checklist for an AI Assistant to perform the
 
 ## Instructions for the AI
 
-- When the user gives you approval to start a step, you will edit this file to
-  mark the previous step's checkbox as complete (`[x]`)
+- When the user approves a step, edit this file to mark the previous step's
+  checkbox as complete (`[x]`)
 - Do not proceed to a step until the user explicitly approves it.
 
 ______________________________________________________________________
 
 ## ☐ **Step 1: Process the Foundation Specification**
 
-- **User Action:** Populate `docs/00_Solution_Design_Principles.md`.
+- **User Action:** Populate
+  `docs/cdf_framework/templates/00_Solution_Design_Principles.md`.
 - **AI Action:**
   1. Read the input Markdown file.
   1. Validate the content. If any `<REPLACE_ME: ...>` placeholders are found,
@@ -27,13 +28,13 @@ ______________________________________________________________________
 
 ```bash
 # Validate the foundation specification
-python tools/spec_validator.py docs/00_Solution_Design_Principles.md
+python tools/spec_validator.py docs/cdf_framework/templates/00_Solution_Design_Principles.md
 
 # Generate JSON from populated template
-python tools/spec_from_markdown.py docs/00_Solution_Design_Principles.md --output docs/specifications/design_principles.json
+python tools/spec_from_markdown.py docs/cdf_framework/templates/00_Solution_Design_Principles.md --output docs/specifications/design_principles.json
 
 # Check for gaps and inconsistencies
-python tools/gap_analyzer.py docs/00_Solution_Design_Principles.md --output docs/ASSUMPTIONS_AND_GAPS.md
+python tools/gap_analyzer.py docs/cdf_framework/templates/00_Solution_Design_Principles.md --output docs/ASSUMPTIONS_AND_GAPS.md
 ```
 
 **Sample JSON Output (`design_principles.json`):**
@@ -112,6 +113,8 @@ python tools/gap_analyzer.py docs/00_Solution_Design_Principles.md --output docs
 
 - **AI Output:** `docs/specifications/design_principles.json` and
   `docs/ASSUMPTIONS_AND_GAPS.md`.
+
+Run python tools/validate_placeholders.py template.md
 
 ______________________________________________________________________
 

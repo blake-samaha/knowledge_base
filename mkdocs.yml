@@ -68,7 +68,7 @@ nav:
   - Quick Start:
       - For Project Managers: ai_knowledge/quickstart_context_engineering.md
       - For Developers: ai_knowledge/advanced_prompting.md
-      - For CDF Teams: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
+      - Project Generation: cdf_framework/initial_project_generation_guide.md
   - AI Knowledge:
       - Overview: ai_knowledge/index.md
       - Context Engineering: ai_knowledge/context_engineering.md
@@ -78,13 +78,16 @@ nav:
       - ROI Analysis: ai_knowledge/includes/roi_taxonomy.md
   - CDF Framework:
       - Overview: cdf_framework/index.md
-      - Solution Design: 00_Solution_Design_Principles.md
-      - Data Model Overview: 01_Conceptual_Data_Model_Overview.md
-      - Object Specification: XX_Object_Specification_Template.md
-      - Production Templates:
-          - Initial Project Generation: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
-          - Targeted Component Update: cdf_framework/templates/instructions/02_TARGETED_COMPONENT_UPDATE.md
-          - Project Realignment Check: cdf_framework/templates/instructions/03_PROJECT_REALIGNMENT_CHECK.md
+      - Guides:
+          - Solution Design Guide: cdf_framework/solution_design_guide.md
+          - Conceptual Data Model Guide: cdf_framework/conceptual_modeling_guide.md
+          - Object Specification Guide: cdf_framework/object_specification_guide.md
+      - AI Workflows:
+          - Project Generation: cdf_framework/initial_project_generation_guide.md
+          - Component Updates: cdf_framework/targeted_component_update_guide.md
+          - Project Validation: cdf_framework/project_realignment_guide.md
+      - Best Practices: cdf_framework/best_practices/index.md
+      - Examples: cdf_framework/examples/index.md
   - Governance: GOVERNANCE.md
   - Contributing: contributing.md
 
@@ -93,6 +96,7 @@ plugins:
   - search
   - git-revision-date-localized:
       enable_creation_date: true
+      enable_git_follow: false
   - minify:
       minify_html: true
 
@@ -132,7 +136,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
       combine_header_slug: true

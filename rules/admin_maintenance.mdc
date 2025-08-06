@@ -1,0 +1,10 @@
+# CDF Administration and Maintenance
+
+For admin tasks:
+- Integrate Toolkit in CI/CD for model deployments.
+- Use scripts to delete nodes without container data (run in dry mode first).
+- Enforce reviews to maintain consistency in multi-team projects.
+description: CDF administration and maintenance tasks including CI/CD integration, cleanup scripts, and multi-team consistency.
+globs: []
+alwaysApply: false
+---

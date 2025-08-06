@@ -1,0 +1,14 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# CDF Project Scaling and Portability
+
+For general CDF project management:
+
+- Break large projects into modules (e.g., separate pipelines from models).
+- Use placeholders like {{project_id}} for generic configs.
+- Implement exponential backoff for bulk ops and use upsert mode to avoid duplicates.
+- In AI workflows, suggest modular code gen.

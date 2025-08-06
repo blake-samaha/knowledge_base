@@ -1,0 +1,14 @@
+---
+description: Standards for YAML configs in Cognite Toolkit, emphasizing naming and organization for scalable deployments.
+globs: ["*.yaml", "**/modules/**"]
+alwaysApply: false
+---
+
+# Cognite Toolkit YAML Standards
+
+Standards for YAML configs:
+
+- Follow naming: e.g., datasets as ds_{{resource}}_{{location}}, pipelines as ep_src_{{resource}}_{{source}}.
+- Use nested directories for large modules (e.g., modules/{{domain}}/{{submodule}}).
+- Include README.md for context.
+- Deploy via CI/CD pipelines for reliability; validate with --dry-run to prevent failures in team settings.

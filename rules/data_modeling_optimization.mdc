@@ -1,0 +1,16 @@
+---
+description: Performance and AI optimization guidelines for CDF data models, including batching, indexing, and GraphQL extensions.
+globs: ["**/models/*.yaml", "**/*.py"]
+alwaysApply: false
+---
+
+# Performance and AI Optimization
+
+Optimize CDF data models for AI and performance:
+
+- Use descriptive properties for natural language queries.
+- Batch ingestions (<1000 nodes/query) and index frequent properties.
+- Delete unused nodes via admin scripts.
+- Extend core models with GraphQL for custom views, avoiding schema bloat as seen in large deployments.
+
+Reference: [Cognite Data Model Docs](mdc:rules/rules_plan.md) for more details.

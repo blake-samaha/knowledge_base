@@ -134,6 +134,15 @@
   background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
 }
 
+
+
+/* Mermaid diagram sizing */
+.mermaid {
+  max-width: 100%;
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
 /* Print styles */
 @media print {
   .hero,

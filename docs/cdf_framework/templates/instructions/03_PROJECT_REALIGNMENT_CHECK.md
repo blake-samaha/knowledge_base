@@ -9,7 +9,7 @@ ______________________________________________________________________
 ## **Step 1: Validate Foundation and Conceptual Model**
 
 - **AI Action:**
-  1. Read `docs/00_Solution_Design_Principles.md`.
+  1. Read `docs/cdf_framework/templates/00_Solution_Design_Principles.md`.
   1. Read `docs/01_Conceptual_Data_Model_Overview.md`.
   1. Cross-reference the two files. For example, ensure that any `externalId`s
      referenced in the conceptual model are defined in the principles document.
@@ -359,7 +359,21 @@ The script:
 
 Manual review still required before merging.
 
+Reference troubleshooting for common fixes.
+
 ______________________________________________________________________
 
 > **Next Step**: Integrate the CI workflow into your repository and resolve any
 > failing checks before deployment.
+
+## CI Workflow
+
+```yaml
+name: Validation
+on: [pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: markdownlint .
+```

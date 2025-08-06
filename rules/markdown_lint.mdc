@@ -1,0 +1,31 @@
+---
+description: Markdown linting conventions enforced across the repository
+alwaysApply: true
+---
+# Markdown Linting Rules
+
+The following conventions *must* be respected in all Markdown files throughout
+the repository to avoid CI failures with **markdownlint**.
+
+## MD030 – Spaces After List Markers
+
+- Use **exactly one** space after '-', '*', or numbered list markers.
+- Correct example:
+  - Item 1
+  - Item 2
+
+## MD013 – Line Length ≤ 80 Characters
+
+- Keep every line ≤ 80 characters whenever practical.
+  - Long URLs inside reference links are exempt.
+- For code blocks, consider enabling line wrapping or breaking long commands
+ across lines with '\\'.
+
+## Additional Good Practices
+
+- Remove trailing whitespace.
+- End every file with a single newline character.
+- Prefer four-space indentation for nested list items.
+
+Adhering to these rules maintains readability and ensures automated lint checks
+ pass consistently.

@@ -1,0 +1,28 @@
+---
+description: Guidelines for building asset hierarchies in CDF data models with performance considerations and batch operations.
+globs: ["**/models/*.yaml", "**/*.py"]
+alwaysApply: false
+---
+
+# Asset Hierarchy Building
+
+When modeling assets in CDF projects:
+
+- Use hierarchical structures with CogniteAsset.
+- Abstractly represent systems (e.g., {{asset_type}} as part of {{parent_asset}}).
+- Follow performance guidelines: Limit hierarchy depth to <7 levels based on real-world scaling lessons.
+- Example: Use SDK to create nodes with parentExternalId.
+
+## Batch Creation Template
+
+@batch_hierarchy_template.py
+
+```python
+from cognite.client import CogniteClient
+from cognite.client.data_modeling import NodeApply
+
+client = CogniteClient(...)
+
+nodes = [NodeApply(external_id='node1', space='my_space', sources=..., parent_external_id='parent_node')]
+client.data_modeling.instances.apply(nodes=nodes)
+```
