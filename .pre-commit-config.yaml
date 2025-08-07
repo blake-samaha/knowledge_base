@@ -13,6 +13,7 @@ repos:
     hooks:
       - id: markdownlint
         args: [--fix]
+        stages: [pre-commit, manual]
         exclude: |
           (?x)^(
               docs/XX_Object_Specification_Template\.md|
@@ -26,6 +27,12 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+        # mkdocs.yml contains legitimate PyYAML !!python/name: tags that the
+        # safe loader in check-yaml can't resolve. Exclude it from this hook.
+        exclude: |
+          (?x)^(
+              mkdocs\.yml
+          )$
       - id: check-added-large-files
       - id: check-merge-conflict
 

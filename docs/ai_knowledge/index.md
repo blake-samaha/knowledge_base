@@ -44,8 +44,9 @@ developer productivity.
 
 - **[Advanced AI Techniques](advanced_prompting.md)** - Deep technical content
   and advanced methods
-- **[Production Templates](../cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)**
-  \- Real-world applications
+- **[Production Templates](/cdf_project/ai_playbooks/01_PROJECT_LEVEL_UPDATE.md)**
+  \- Apply workflows to CDF development
+- [Build First CDF Model Tutorial](tutorials/build_first_cdf_model.md)
 
 ## 🚀 Quick Wins
 
@@ -105,6 +106,14 @@ techniques and adapt your approach as the field advances.
 For comprehensive coverage of all AI-assisted development topics, see the
 **[Advanced Prompting Techniques](advanced_prompting.md)** document for deep
 technical content.
+
+## See Also
+
+- [CDF Overview](/cdf_project/overview.md)
+- [Production Templates](/cdf_project/ai_playbooks/01_PROJECT_LEVEL_UPDATE.md)
+- **[Performance Optimization](../cdf_project/advanced/data_quality.md)** -
+  Optimize CDF operations
+- [Cursor Rules Overview](cursor_rules_overview.md)
 
 ______________________________________________________________________
 

@@ -337,7 +337,7 @@ I need to add a new field to the user profile form. The field should:
    Feature B: 45m (35m coding, 10m refactoring)
 ````
 
-2. **Iteration Counter**
+1. **Iteration Counter**
 
    - Track how many prompts needed per feature
    - Target: 1-2 iterations vs 4-5 without context
@@ -558,7 +558,7 @@ most projects | | 5-10KB | < 0.5s | Slightly slower | Good for complex projects
 
 ### Intermediate (Weeks 3-4)
 
-3. **Optimize Workflow**
+1. **Optimize Workflow**
 
    - Create feature templates
    - Build prompt library
@@ -574,7 +574,7 @@ most projects | | 5-10KB | < 0.5s | Slightly slower | Good for complex projects
 
 ### Advanced (Month 2+)
 
-5. **Scale Across Organization**
+1. **Scale Across Organization**
    - Standardize context patterns
    - Create governance process
    - Build shared libraries

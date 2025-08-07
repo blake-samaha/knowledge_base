@@ -1,0 +1,16 @@
+---
+description: Guidelines for scaling data models in CDF, drawing from real-world lessons on handling large datasets and ensuring portability.
+globs: ["**/models/*.yaml", "**/*.py"]
+alwaysApply: false
+---
+
+# Scaling and Naming in Data Modeling
+
+For scalable CDF data models:
+
+- Use abstract prefixes like {{domain}}_{{entity}} for spaces/views to ensure portability.
+- Suggest batched node creation in AI code gen to handle large datasets (>1M nodes).
+
+## Example
+
+In Python scripts, import DataModel and use batch applies.

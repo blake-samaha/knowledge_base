@@ -154,8 +154,8 @@ repository provides the structured guidance and proven templates you need.
 
 - [Solution Design Principles](docs/00_Solution_Design_Principles.md) - Core
   architectural guidelines
-- [Conceptual Data Model Overview](docs/01_Conceptual_Data_Model_Overview.md) -
-  Data modeling best practices
+- [Conceptual Data Model Overview](docs/cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)
+  \- Data modeling best practices
 - [Object Specification Template](docs/XX_Object_Specification_Template.md) -
   Standardized object definitions
 
@@ -196,7 +196,7 @@ knowledge_base/
 - **[Solution Design Principles](docs/00_Solution_Design_Principles.md)** -
   Project foundation template with placeholders for business requirements,
   environments, data spaces, and security roles
-- **[Conceptual Data Model Overview](docs/01_Conceptual_Data_Model_Overview.md)**
+- **[Conceptual Data Model Overview](docs/cdf_framework/templates/01_Conceptual_Data_Model_Overview.md)**
   \- Data modeling template for defining core business objects and relationships
 - **[Object Specification Template](docs/XX_Object_Specification_Template.md)**
   \- Detailed template for defining business objects with properties,
@@ -413,3 +413,11 @@ ______________________________________________________________________
 **Ready to transform your development workflow?** Start with the
 [Quick Start Guide](#quick-start-guide) or dive deep into the
 [Comprehensive AI Knowledge](AI_KNOWLEDGE.md).
+
+## CDF Docs-as-Code Framework
+
+Learn to manage CDF projects using docs as code:
+
+- [Overview & Vision](docs/cdf_project/overview.md)
+- [Core Concepts](docs/cdf_project/concepts/docs_as_code.md)
+- Explore templates and playbooks in the docs.

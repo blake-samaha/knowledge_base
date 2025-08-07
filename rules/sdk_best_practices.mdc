@@ -1,0 +1,80 @@
+---
+description: Secure and efficient use of Cognite Python SDK with production-tested patterns for authentication, batching, and error handling.
+globs: ["**/*.py"]
+alwaysApply: false
+---
+
+
+# Python SDK Best Practices
+
+For Cognite SDK in Python:
+
+## Authentication
+
+- Always use OAuth for authentication (OAuthClientCredentials, OAuthInteractive, OAuthDeviceCode).
+- Use environment variables for secrets: `client_secret=os.environ["OAUTH_CLIENT_SECRET"]`.
+- Leverage default Azure AD methods: `CogniteClient.default_oauth_client_credentials()`.
+
+## Batch Operations
+
+- Use batch methods for all operations: `client.assets.create_hierarchy()`, `client.data_modeling.instances.apply()`.
+- For large datasets, use `create_hierarchy()` with validation: `AssetHierarchy(assets).is_valid()`.
+- Batch limits: <1000 items per request for optimal performance.
+
+## Error Handling & Retries
+
+- SDK handles retries automatically with exponential backoff (429, 502, 503, 504).
+- Global config: `global_config.max_retries = 10`, `global_config.max_retry_backoff = 30`.
+- Wrap in try-except for custom handling: `except CogniteAPIError as e:`.
+
+## Pagination & Memory Management
+
+- Use `limit=None` for complete results with automatic pagination.
+- Iterate with chunking: `for chunk in client.assets(chunk_size=2500):`.
+- For large queries: `client.raw.rows(db, table, partitions=5, chunk_size=5000)`.
+
+## Abstraction
+
+- Replace hard-coded IDs with variables: `{{external_id}}`, `{{project_id}}`.
+- Use external IDs consistently: `asset.external_id` over `asset.id`.
+
+## Examples from SDK
+
+```python
+# OAuth Authentication
+from cognite.client import CogniteClient
+from cognite.client.credentials import OAuthClientCredentials
+import os
+
+creds = OAuthClientCredentials(
+    token_url="https://login.microsoftonline.com/xyz/oauth2/v2.0/token",
+    client_id="abcd",
+    client_secret=os.environ["OAUTH_CLIENT_SECRET"],
+    scopes=["https://greenfield.cognitedata.com/.default"]
+)
+client = CogniteClient(project="my-project", credentials=creds)
+
+# Batch Asset Creation
+from cognite.client.data_classes import Asset, AssetHierarchy
+assets = [
+    Asset(external_id="root", name="root"),
+    Asset(external_id="child1", parent_external_id="root", name="child1")
+]
+hierarchy = AssetHierarchy(assets)
+if hierarchy.is_valid():
+    client.assets.create_hierarchy(hierarchy)
+
+# Paginated Queries
+for asset_list in client.assets(chunk_size=2500):
+    for asset in asset_list:
+        print(asset.name)
+
+# Error Handling
+try:
+    result = client.assets.create(assets)
+except CogniteAPIError as e:
+    if e.code == 400:
+        print(f"Bad request: {e.message}")
+    elif e.code == 429:
+        print("Rate limited - SDK will retry automatically")
+```

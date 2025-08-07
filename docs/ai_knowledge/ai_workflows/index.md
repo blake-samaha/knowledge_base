@@ -1783,7 +1783,7 @@ Refactor [target] to improve [aspects]:
   effective context for workflows
 - **[Advanced Prompting](../advanced_prompting.md)** - Master sophisticated
   techniques for complex workflows
-- **[Production Templates](../../cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md)**
+- **[Production Templates](../../cdf_project/ai_playbooks/01_PROJECT_LEVEL_UPDATE.md)**
   \- Apply workflows to CDF development
 
 ## 🚀 Getting Started

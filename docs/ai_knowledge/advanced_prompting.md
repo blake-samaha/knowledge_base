@@ -865,14 +865,14 @@ Medium | "List CDF security best practices, then implement" | 93% | +40% |
 ### Combination Strategies
 
 | Task Type | Recommended Combination | Example |
-|-----------|------------------------|---------|\
-| **CDF Integration** | Role + CoT + Generated Knowledge | "As a CDF expert,
-list integration patterns, then design step-by-step" | | **Data Model Design** |
-Few-Shot + ToT | "Given these examples, explore 3 approaches for time series
-schema" | | **Security Implementation** | Generated Knowledge + Self-Consistency
-| "List security requirements, generate 3 versions, select most secure" | |
-**Performance Optimization** | Role + CoT + Few-Shot | "As a performance
-engineer, analyze step-by-step using these patterns" |
+|-----------|------------------------|---------| | **CDF Integration** | Role +
+CoT + Generated Knowledge | "As a CDF expert, list integration patterns, then
+design step-by-step" | | **Data Model Design** | Few-Shot + ToT | "Given these
+examples, explore 3 approaches for time series schema" | | **Security
+Implementation** | Generated Knowledge + Self-Consistency | "List security
+requirements, generate 3 versions, select most secure" | | **Performance
+Optimization** | Role + CoT + Few-Shot | "As a performance engineer, analyze
+step-by-step using these patterns" |
 
 ## 🛠️ Implementation Best Practices
 
@@ -1001,7 +1001,7 @@ print(f"ROI: {roi['roi_percentage']:.1f}% with {roi['payback_period_weeks']:.1f}
 
 ### Week 2: Reasoning Techniques
 
-3. **Practice Chain of Thought**:
+1. **Practice Chain of Thought**:
 
    - Start with simple algorithms
    - Progress to CDF transformations
@@ -1015,7 +1015,7 @@ print(f"ROI: {roi['roi_percentage']:.1f}% with {roi['payback_period_weeks']:.1f}
 
 ### Week 3: Advanced Techniques
 
-5. **Implement Self-Consistency**:
+1. **Implement Self-Consistency**:
 
    - Generate 3 solutions minimum
    - Develop selection criteria
@@ -1029,7 +1029,7 @@ print(f"ROI: {roi['roi_percentage']:.1f}% with {roi['payback_period_weeks']:.1f}
 
 ### Week 4: Integration
 
-7. **Combine Techniques**:
+1. **Combine Techniques**:
 
    - Create hybrid prompts
    - Test combinations

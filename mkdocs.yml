@@ -68,7 +68,6 @@ nav:
   - Quick Start:
       - For Project Managers: ai_knowledge/quickstart_context_engineering.md
       - For Developers: ai_knowledge/advanced_prompting.md
-      - For CDF Teams: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
   - AI Knowledge:
       - Overview: ai_knowledge/index.md
       - Context Engineering: ai_knowledge/context_engineering.md
@@ -76,23 +75,42 @@ nav:
       - Prompt Techniques: ai_knowledge/prompt_techniques_overview.md
       - AI Workflows: ai_knowledge/ai_workflows/index.md
       - ROI Analysis: ai_knowledge/includes/roi_taxonomy.md
-  - CDF Framework:
-      - Overview: cdf_framework/index.md
-      - Solution Design: 00_Solution_Design_Principles.md
-      - Data Model Overview: 01_Conceptual_Data_Model_Overview.md
-      - Object Specification: XX_Object_Specification_Template.md
-      - Production Templates:
-          - Initial Project Generation: cdf_framework/templates/instructions/01_INITIAL_PROJECT_GENERATION.md
-          - Targeted Component Update: cdf_framework/templates/instructions/02_TARGETED_COMPONENT_UPDATE.md
-          - Project Realignment Check: cdf_framework/templates/instructions/03_PROJECT_REALIGNMENT_CHECK.md
+  - CDF Docs-as-Code:
+      - Overview & Vision: cdf_project/overview.md
+      - Core Concepts:
+          - Docs-as-Code Framework: cdf_project/concepts/docs_as_code.md
+          - Templates Concept: cdf_project/concepts/templates.md
+          - Playbooks Concept: cdf_project/concepts/playbooks.md
+          - Workflow Lifecycle: cdf_project/concepts/workflow_lifecycle.md
+      - Templates Reference:
+          - Solution Design Principles: cdf_project/templates/00_Solution_Design_Principles.md
+          - Conceptual Model: cdf_project/templates/01_CONCEPTUAL_MODEL_TEMPLATE.md
+          - Object Specification: cdf_project/templates/XX_Object_Specification_Template.md
+      - Playbooks Reference:
+          - Project Level Update: cdf_project/ai_playbooks/01_PROJECT_LEVEL_UPDATE.md
+          - Module Bootstrap: cdf_project/ai_playbooks/02_MODULE_BOOTSTRAP.md
+          - Object Level Update: cdf_project/ai_playbooks/03_OBJECT_LEVEL_UPDATE.md
+          - Sanity Check: cdf_project/ai_playbooks/04_SANITY_CHECK.md
+          - Toolkit YAML Sync: cdf_project/ai_playbooks/05_TOOLKIT_YAML_SYNC.md
+          - Environment Promotion: cdf_project/ai_playbooks/06_ENVIRONMENT_PROMOTION.md
+          - CI/CD Pipeline: cdf_project/ai_playbooks/07_CI_CD_PIPELINE.md
+          - Data Ingestion Operations: cdf_project/ai_playbooks/08_DATA_INGESTION_OPERATIONS.md
+          - Data Quality Validation: cdf_project/ai_playbooks/09_DATA_QUALITY_VALIDATION.md
+          - Observability and Alerting: cdf_project/ai_playbooks/10_OBSERVABILITY_AND_ALERTING.md
+          - Deprecation and Cleanup: cdf_project/ai_playbooks/11_DEPRECATION_AND_CLEANUP.md
+      - Advanced Topics:
+          - CI/CD Integration: cdf_project/advanced/ci_cd.md
+          - Data Quality & Observability: cdf_project/advanced/data_quality.md
   - Governance: GOVERNANCE.md
   - Contributing: contributing.md
 
 # Plugins
 plugins:
   - search
-  - git-revision-date-localized:
-      enable_creation_date: true
+  # Comment out:
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     enable_git_follow: false
   - minify:
       minify_html: true
 
@@ -132,7 +150,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
       combine_header_slug: true

@@ -1,0 +1,12 @@
+---
+description: Guidelines for managing large CDF codebases with modularization, external IDs, and pre-commit hooks.
+globs: ["**/modules/**", "*.yaml"]
+alwaysApply: false
+---
+
+# Toolkit for Large Codebases
+
+In large CDF codebases:
+
+- Modularize with domains; use external IDs everywhere and pre-commit hooks for consistency.
+- Suggest nested structures in AI-generated configs.

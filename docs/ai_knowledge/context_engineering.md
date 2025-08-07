@@ -505,7 +505,7 @@ spec:
       property: pressure
 ```
 
-#### Example: CDF Maintenance Management Feature
+### Example: CDF Maintenance Management Feature
 
 **Context Setup for Maintenance Workflow:**
 
