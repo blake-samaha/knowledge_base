@@ -67,5 +67,5 @@ project-specific code and documentation.
 asset = Asset(parent_external_id="parent_id")
 ````
 
-For more rules, see the
-[CDF Best Practices](../cdf_framework/best_practices/index.md) section.
+For more rules, see the [Best Practices](../cdf_project/advanced/ci_cd.md)
+section.

@@ -413,3 +413,11 @@ ______________________________________________________________________
 **Ready to transform your development workflow?** Start with the
 [Quick Start Guide](#quick-start-guide) or dive deep into the
 [Comprehensive AI Knowledge](AI_KNOWLEDGE.md).
+
+## CDF Docs-as-Code Framework
+
+Learn to manage CDF projects using docs as code:
+
+- [Overview & Vision](docs/cdf_project/overview.md)
+- [Core Concepts](docs/cdf_project/concepts/docs_as_code.md)
+- Explore templates and playbooks in the docs.

@@ -696,7 +696,7 @@ Output:
 
 ### Day 4-7: Advanced Techniques
 
-3. **Role Expertise**:
+1. **Role Expertise**:
 
    - Try 5 different expert roles
    - Compare outputs
@@ -710,7 +710,7 @@ Output:
 
 ### Week 2: Mastery
 
-5. **Combine Techniques**:
+1. **Combine Techniques**:
 
    - Mix role + few-shot
    - Add structure to examples
